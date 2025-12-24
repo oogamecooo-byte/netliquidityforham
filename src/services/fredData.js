@@ -5,15 +5,23 @@ const API_KEY = import.meta.env.VITE_FRED_API_KEY;
 
 const fetchSeries = async (seriesId) => {
   try {
-    const response = await axios.get(`${BASE_URL}`, {
-      params: {
-        series_id: seriesId,
-        api_key: API_KEY,
-        file_type: 'json',
-        frequency: seriesId === 'MMMFFAQ027S' ? 'q' : 'w', // Quarterly for Total MMF
-        aggregation_method: 'eop',
-      }
-    });
+    const params = {
+      series_id: seriesId,
+      api_key: API_KEY,
+      file_type: 'json',
+    };
+
+    // Adjust frequency and aggregation based on series
+    if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP') {
+      params.frequency = 'q'; // Quarterly
+      // No aggregation needed for native quarterly
+    } else {
+      params.frequency = 'w'; // Weekly
+      params.aggregation_method = 'eop'; // End of Period (for Daily -> Weekly)
+    }
+
+    const response = await axios.get(`${BASE_URL}`, { params });
+    console.log(`Fetched ${seriesId}:`, response.data.observations?.length || 0, 'items');
     return response.data.observations;
   } catch (error) {
     console.error(`Error fetching ${seriesId}:`, error);
@@ -31,15 +39,19 @@ export const getLiquidityData = async () => {
   // WALCL: Fed Total Assets (Weekly - Wednesday)
   // WTREGEN: Treasury General Account (Weekly - Wednesday Level)
   // RRPONTSYD: Overnight Reverse Repo (Daily - we will use Wednesday values)
-  // MMMFFAQ027S: Total Money Market Funds (Quarterly) - For Historical Level
-  // WRMFNS: Retail Money Market Funds (Weekly) - Proxy for weekly fluctuations
+  // MMMFFAQ027S: Total Money Market Funds (Quarterly)
+  // WRMFNS: Retail Money Market Funds (Weekly)
+  // GDP: Gross Domestic Product (Quarterly)
+  // WRESBAL: Reserve Balances with Federal Reserve Banks (Weekly)
 
-  const [fedAssets, tga, rrp, mmfTotal, mmfRetail] = await Promise.all([
+  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves] = await Promise.all([
     fetchSeries('WALCL'),
     fetchSeries('WTREGEN'),
     fetchSeries('RRPONTSYD'),
     fetchSeries('MMMFFAQ027S'),
-    fetchSeries('WRMFNS')
+    fetchSeries('WRMFNS'),
+    fetchSeries('GDP'),
+    fetchSeries('WRESBAL')
   ]);
 
   // Process and align data
@@ -66,22 +78,15 @@ export const getLiquidityData = async () => {
       return item ? parseFloat(item.value) : null;
     };
 
-    // Estimate Weekly Total MMF
-    // Logic: Use latest known Quarterly Total MMF (MMMFFAQ027S) as base.
-    // Then apply the trend from Weekly Retail MMF (WRMFNS).
-    // Simple approach for now: Just use the most recent Quarterly value available for that date.
-    // If we want "live" weekly movement, we could try to extrapolate, but sticking to the latest known Quarterly 
-    // is safer and "automatic" (it updates when FRED updates).
-    // User wants "Automatic Update". The Quarterly series updates... quarterly.
-    // The Retail series updates weekly.
-    // Let's use the Retail series (WRMFNS) scaled up? Or just use Quarterly and accept it's flat between quarters?
-    // User wants "Daily/Weekly update".
-    // Let's use a Hybrid:
-    // Base = Quarterly MMF.
-    // If date > last Quarterly date, assume it follows Retail MMF trend?
-    // Actually, for simplicity and robustness: Use Quarterly MMF for the "Level".
-    // But for the "Flow" (MMF - RRP), RRP changes weekly, so the flow WILL change weekly even if MMF is flat.
-    // This satisfies "Automatic Update" because RRP is automatic.
+    // Find GDP Value (Quarterly)
+    // Use the latest available GDP value for the given date
+    const findGdpValue = (d) => {
+      if (!gdpData) return null;
+      const targetDate = new Date(d);
+      const sorted = [...gdpData].sort((a, b) => new Date(b.date) - new Date(a.date));
+      const item = sorted.find(i => new Date(i.date) <= targetDate);
+      return item ? parseFloat(item.value) : null;
+    };
 
     const findMmfValue = (d) => {
       const targetDate = new Date(d);
@@ -95,6 +100,8 @@ export const getLiquidityData = async () => {
     // WTREGEN: Millions
     // RRPONTSYD: Billions
     // MMMFFAQ027S: Millions
+    // GDP: Billions
+    // WRESBAL: Billions
 
     const fedAssetsMillions = parseFloat(asset.value);
     const fedAssetsBillions = fedAssetsMillions / 1000;
@@ -107,8 +114,19 @@ export const getLiquidityData = async () => {
     const mmfMillions = findMmfValue(date);
     const mmfBillions = mmfMillions / 1000;
 
+    const gdpBillions = findGdpValue(date);
+
+    const reservesBillions = findValue(reserves, date) || 0;
+
     // Net Liquidity Formula: Fed Assets - TGA - RRP
     const netLiquidityBillions = fedAssetsBillions - tgaBillions - rrpBillions;
+
+    // Net Liquidity / GDP Ratio
+    // GDP is in Billions, Net Liquidity is in Billions. Ratio is percentage.
+    const liquidityToGdpRatio = gdpBillions ? (netLiquidityBillions / gdpBillions) * 100 : null;
+
+    // Reserves / GDP Ratio
+    const reservesToGdpRatio = gdpBillions ? (reservesBillions / gdpBillions) * 100 : null;
 
     return {
       date,
@@ -117,6 +135,8 @@ export const getLiquidityData = async () => {
       rrp: rrpBillions / 1000, // Trillions
       mmf: mmfBillions / 1000, // Trillions
       netLiquidity: netLiquidityBillions / 1000, // Trillions
+      liquidityToGdpRatio: liquidityToGdpRatio, // Percentage
+      reservesToGdpRatio: reservesToGdpRatio, // Percentage
 
       // Raw values for delta calculation (Billions)
       raw: {
@@ -124,10 +144,21 @@ export const getLiquidityData = async () => {
         tga: tgaBillions,
         rrp: rrpBillions,
         mmf: mmfBillions,
-        netLiquidity: netLiquidityBillions
+        netLiquidity: netLiquidityBillions,
+        gdp: gdpBillions,
+        reserves: reservesBillions
       }
     };
   });
+
+  // Debug logging for units (Check the last item)
+  const lastItem = processedData[processedData.length - 1];
+  if (lastItem) {
+    console.log(`Date: ${lastItem.date}`);
+    console.log(`GDP (Billions?): ${lastItem.raw.gdp}`);
+    console.log(`Reserves (Billions?): ${lastItem.raw.reserves}`);
+    console.log(`Ratio: ${lastItem.reservesToGdpRatio}`);
+  }
 
   // Calculate Weekly Changes
   for (let i = 1; i < processedData.length; i++) {

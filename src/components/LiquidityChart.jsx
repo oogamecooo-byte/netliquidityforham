@@ -38,8 +38,8 @@ const LiquidityChart = ({ data }) => {
                             key={range}
                             onClick={() => setTimeRange(range)}
                             className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${timeRange === range
-                                    ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
-                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'
+                                ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/25'
+                                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'
                                 }`}
                         >
                             {range}
@@ -55,7 +55,7 @@ const LiquidityChart = ({ data }) => {
                         <XAxis
                             dataKey="date"
                             stroke="#64748b"
-                            tickFormatter={(str) => new Date(str).toLocaleDateString(undefined, { month: 'short', year: '2-digit' })}
+                            tickFormatter={(str) => new Date(str).toLocaleDateString('en-US', { month: 'short', year: '2-digit' })}
                             minTickGap={50}
                         />
                         <YAxis
