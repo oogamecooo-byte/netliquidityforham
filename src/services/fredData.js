@@ -171,6 +171,7 @@ export const getLiquidityData = async () => {
       tga: curr.raw.tga - prev.raw.tga,
       rrp: curr.raw.rrp - prev.raw.rrp,
       netLiquidity: curr.raw.netLiquidity - prev.raw.netLiquidity,
+      reserves: curr.raw.reserves - prev.raw.reserves,
 
       // MMF Change
       mmf: curr.raw.mmf - prev.raw.mmf,

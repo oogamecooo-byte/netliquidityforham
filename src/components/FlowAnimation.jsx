@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Building2, Landmark, TrendingUp, Coins } from 'lucide-react';
+import { Building2, Landmark, TrendingUp } from 'lucide-react';
 
 const FlowAnimation = ({ data }) => {
     if (!data || data.length === 0) return (
@@ -12,39 +12,33 @@ const FlowAnimation = ({ data }) => {
     // Get the latest week's data
     const latest = data[data.length - 1];
     const delta = latest.delta;
-    const raw = latest.raw;
 
-    // --- Logic Definition (User Specified) ---
+    // --- Logic Definition ---
 
-    // 1. Fed <-> MMF (RRP)
-    // Logic: RRP Change.
-    // +RRP: MMF -> Fed (Money leaves MMF, goes to Fed RRP)
-    // -RRP: Fed -> MMF (Money leaves Fed RRP, goes back to MMF)
-    const rrpVal = delta.rrp;
-
-    // 2. TGA <-> Market
+    // 1. TGA <-> Market
     // Logic: TGA Change.
     // +TGA: Market -> TGA (Tax/Bond sales, Money leaves Market)
     // -TGA: TGA -> Market (Gov Spending, Money enters Market)
     const tgaVal = delta.tga;
 
-    // 3. Fed <-> Market (WALCL)
-    // Logic: Fed Assets Change.
-    // -WALCL: Fed -> Market
-    // +WALCL: Market -> Fed
-    const walclVal = delta.fedAssets;
+    // 2. Fed <-> Market (Redefined by User)
+    // Logic: Change in Reserves + (-1 * Change in RRP).
+    // Formula: delta.reserves - delta.rrp
+    // Direction:
+    // + (Positive): Fed -> Market (Liquidity Injection)
+    // - (Negative): Market -> Fed (Liquidity Withdrawal)
+    const walclVal = delta.reserves - delta.rrp;
 
     // Helper for formatting
     const formatVal = (val, unit = 'B') => {
         const absVal = Math.abs(val);
-        // If value is huge (Trillions scale, e.g. > 1000B), format as T
         if (absVal >= 1000) {
             return `${(absVal / 1000).toFixed(2)}T`;
         }
         return `${absVal.toFixed(2)}${unit}`;
     };
 
-    const FlowPath = ({ value, label, color, positiveText, negativeText, isStock = false }) => {
+    const FlowPath = ({ value, label, color, positiveText, negativeText, isStock = false, vertical = false }) => {
         if (Math.abs(value) < 0.1) return null;
 
         // value > 0: positiveText
@@ -52,7 +46,7 @@ const FlowAnimation = ({ data }) => {
         const flowText = value > 0 ? positiveText : negativeText;
 
         return (
-            <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+            <div className={`absolute inset-0 pointer-events-none flex items-center justify-center ${vertical ? 'flex-col' : ''}`}>
                 <div className={`absolute px-3 py-2 rounded-lg border bg-slate-900/90 backdrop-blur z-20 flex flex-col items-center shadow-xl ${color}`}>
                     <span className="text-[10px] font-bold uppercase tracking-wider opacity-80">{label}</span>
                     <span className="text-sm font-bold">{flowText}</span>
@@ -75,10 +69,10 @@ const FlowAnimation = ({ data }) => {
 
             <div className="relative w-full h-[500px]">
 
-                {/* --- NODES --- */}
+                {/* --- NODES (Inverted Triangle Layout) --- */}
 
-                {/* TOP: FED */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
+                {/* TOP LEFT: FED */}
+                <div className="absolute top-10 left-[15%] flex flex-col items-center z-30">
                     <span className="text-slate-400 font-bold mb-2">Central Bank (FED)</span>
                     <div className="w-24 h-24 bg-slate-800 rounded-2xl border-4 border-slate-600 flex items-center justify-center shadow-2xl relative">
                         <Landmark className="w-12 h-12 text-slate-200" />
@@ -88,8 +82,8 @@ const FlowAnimation = ({ data }) => {
                     </div>
                 </div>
 
-                {/* LEFT: TGA */}
-                <div className="absolute top-1/2 left-10 -translate-y-1/2 flex flex-col items-center z-30">
+                {/* TOP RIGHT: US GOV (TGA) */}
+                <div className="absolute top-10 right-[15%] flex flex-col items-center z-30">
                     <span className="text-amber-400 font-bold mb-2">US Gov (TGA)</span>
                     <div className="w-24 h-24 bg-amber-900/20 rounded-2xl border-4 border-amber-500 flex items-center justify-center shadow-2xl relative">
                         <Building2 className="w-12 h-12 text-amber-400" />
@@ -99,22 +93,11 @@ const FlowAnimation = ({ data }) => {
                     </div>
                 </div>
 
-                {/* RIGHT: MMF */}
-                <div className="absolute top-1/2 right-10 -translate-y-1/2 flex flex-col items-center z-30">
-                    <span className="text-emerald-400 font-bold mb-2">MMF</span>
-                    <div className="w-24 h-24 bg-emerald-900/20 rounded-2xl border-4 border-emerald-500 flex items-center justify-center shadow-2xl relative">
-                        <Coins className="w-12 h-12 text-emerald-400" />
-                        <div className="absolute -bottom-3 bg-emerald-900/80 px-2 py-0.5 rounded text-xs text-emerald-200 border border-emerald-500/50">
-                            {latest.mmf.toFixed(2)}T
-                        </div>
-                    </div>
-                </div>
-
-                {/* BOTTOM: MARKET */}
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
+                {/* BOTTOM CENTER: MARKET */}
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
+                    <span className="text-indigo-200 font-bold mb-2">Market</span>
                     <div className="w-32 h-32 bg-indigo-900/20 rounded-2xl border-4 border-indigo-500 flex flex-col items-center justify-center shadow-2xl relative backdrop-blur-sm">
                         <TrendingUp className="w-12 h-12 text-indigo-400 mb-1" />
-                        <span className="text-indigo-200 font-bold">Market</span>
                         <span className="text-xs text-indigo-300">Net Liquidity</span>
                         <span className="text-xl font-bold text-white mt-1">{latest.netLiquidity.toFixed(2)}T</span>
                     </div>
@@ -126,63 +109,68 @@ const FlowAnimation = ({ data }) => {
 
                 {/* --- FLOWS --- */}
 
-                {/* 1. TGA <-> Market (Left Side) */}
-                <div className="absolute top-[60%] left-[20%] w-[20%] h-[20%] z-20 flex items-center justify-center">
-                    <FlowPath
-                        value={tgaVal}
-                        label="TGA Flow"
-                        color="border-amber-500/50 text-amber-400"
-                        positiveText="Market ➔ TGA"
-                        negativeText="TGA ➔ Market"
-                    />
-                    <motion.div
-                        className="absolute text-4xl drop-shadow-lg"
-                        animate={{
-                            x: tgaVal > 0 ? [50, -50] : [-50, 50],
-                            y: tgaVal > 0 ? [50, -50] : [-50, 50],
-                            opacity: [0, 1, 0]
-                        }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                    >
-                        💵
-                    </motion.div>
-                </div>
-
-                {/* 2. MMF <-> Fed (RRP) (Top Right) */}
-                <div className="absolute top-[25%] right-[20%] w-[20%] h-[20%] z-20 flex items-center justify-center">
-                    <FlowPath
-                        value={rrpVal}
-                        label="RRP Flow"
-                        color="border-pink-500/50 text-pink-400"
-                        positiveText="MMF ➔ Fed"
-                        negativeText="Fed ➔ MMF"
-                    />
-                    <motion.div
-                        className="absolute text-4xl drop-shadow-lg"
-                        animate={{
-                            x: rrpVal > 0 ? [50, -50] : [-50, 50],
-                            y: rrpVal > 0 ? [50, -50] : [-50, 50],
-                            opacity: [0, 1, 0]
-                        }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                    >
-                        💵
-                    </motion.div>
-                </div>
-
-                {/* 4. Fed <-> Market (Center Vertical) */}
-                <div className="absolute top-[40%] left-1/2 -translate-x-1/2 w-[20%] h-[20%] z-20 flex items-center justify-center">
+                {/* 1. Fed <-> Market (Diagonal: Top Left to Bottom Center) */}
+                {/* Position: roughly centered between Top Left (15%) and Bottom Center (50%) */}
+                {/* Left: ~32.5%, Top: ~40% */}
+                {/* No rotation on container to keep text straight */}
+                <div className="absolute top-[40%] left-[25%] w-[20%] h-[20%] z-20 flex items-center justify-center">
                     <FlowPath
                         value={walclVal}
-                        label="Fed-Market"
+                        label="Fed Net Flow"
                         color="border-slate-500/50 text-slate-300"
-                        positiveText="Market ➔ Fed"
-                        negativeText="Fed ➔ Market"
+                        positiveText="Fed ➔ Market"  // User Rule: + means Fed -> Market
+                        negativeText="Market ➔ Fed"  // User Rule: - means Market -> Fed
                     />
+                    {/* Diagonal Movement: X increases, Y increases (Down-Right) */}
                     <motion.div
                         className="absolute text-4xl drop-shadow-lg"
                         animate={{
-                            y: walclVal > 0 ? [50, -50] : [-50, 50],
+                            // walclVal > 0 (Fed -> Market): Down-Right. (X+, Y+)
+                            // walclVal < 0 (Market -> Fed): Up-Left. (X-, Y-)
+
+                            x: walclVal > 0 ? [-40, 40] : [40, -40],
+                            y: walclVal > 0 ? [-40, 40] : [40, -40],
+
+                            opacity: [0, 1, 0]
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                    >
+                        💵
+                    </motion.div>
+                </div>
+
+                {/* 2. TGA <-> Market (Diagonal: Top Right to Bottom Center) */}
+                {/* Position: roughly centered between Top Right (85%) and Bottom Center (50%) */}
+                {/* Left: ~67.5%, Top: ~40% */}
+                <div className="absolute top-[40%] right-[25%] w-[20%] h-[20%] z-20 flex items-center justify-center">
+                    <FlowPath
+                        value={tgaVal}
+                        label="Gov Operations"
+                        color="border-amber-500/50 text-amber-400"
+                        positiveText="Market ➔ TGA" // +TGA = Draining from Market
+                        negativeText="TGA ➔ Market" // -TGA = Spending into Market
+                    />
+                    {/* Diagonal Movement: X decreases, Y increases (Down-Left) */}
+                    {/* +TGA (Market -> Gov): Up-Right (X+, Y-) */}
+                    {/* -TGA (Gov -> Market): Down-Left (X-, Y+) */}
+                    <motion.div
+                        className="absolute text-4xl drop-shadow-lg"
+                        animate={{
+                            x: tgaVal > 0 ? [-40, 40] : [40, -40], // Market(Left) to Gov(Right) is X+? No.
+                            // Market is Center (50%), Gov is Right (85%). So Market -> Gov is Right (X+).
+                            // Gov -> Market is Left (X-).
+
+                            // Wait, visualizing:
+                            // Gov (Top Right) <-> Market (Bottom Center)
+                            // Gov -> Market: Down and Left. (X-, Y+)
+                            // Market -> Gov: Up and Right. (X+, Y-)
+
+                            // tgaVal > 0 (Market -> Gov): X+, Y-
+                            // tgaVal < 0 (Gov -> Market): X-, Y+
+
+                            x: tgaVal > 0 ? [-40, 40] : [40, -40],
+                            y: tgaVal > 0 ? [40, -40] : [-40, 40],
+
                             opacity: [0, 1, 0]
                         }}
                         transition={{ duration: 2, repeat: Infinity }}
