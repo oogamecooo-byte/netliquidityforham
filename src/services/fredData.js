@@ -116,7 +116,8 @@ export const getLiquidityData = async () => {
 
     const gdpBillions = findGdpValue(date);
 
-    const reservesBillions = findValue(reserves, date) || 0;
+    const reservesMillions = findValue(reserves, date) || 0;
+    const reservesBillions = reservesMillions / 1000;
 
     // Net Liquidity Formula: Fed Assets - TGA - RRP
     const netLiquidityBillions = fedAssetsBillions - tgaBillions - rrpBillions;
