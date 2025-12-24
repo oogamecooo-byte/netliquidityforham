@@ -21,13 +21,13 @@ const FlowAnimation = ({ data }) => {
     // -TGA: TGA -> Market (Gov Spending, Money enters Market)
     const tgaVal = delta.tga;
 
-    // 2. Fed <-> Market (Redefined by User)
-    // Logic: Change in Reserves + (-1 * Change in RRP).
-    // Formula: delta.reserves - delta.rrp
+    // 2. Fed <-> Market (Corrected Logic)
+    // Logic: Change in Fed Assets + (-1 * Change in RRP).
+    // Formula: delta.fedAssets - delta.rrp
     // Direction:
     // + (Positive): Fed -> Market (Liquidity Injection)
     // - (Negative): Market -> Fed (Liquidity Withdrawal)
-    const walclVal = delta.reserves - delta.rrp;
+    const walclVal = delta.fedAssets - delta.rrp;
 
     // Helper for formatting
     const formatVal = (val, unit = 'B') => {
