@@ -7,6 +7,8 @@ import NetLiquidityToGDPChart from './components/NetLiquidityToGDPChart';
 import ReservesToGDPChart from './components/ReservesToGDPChart';
 import ArkkChart from './components/ArkkChart';
 import { getLiquidityData } from './services/fredData';
+import TGAChart from './components/TGAChart';
+import RRPChart from './components/RRPChart';
 import MMFChart from './components/MMFChart';
 import SPXChart from './components/SPXChart';
 import BTCChart from './components/BTCChart';
@@ -108,17 +110,20 @@ function App() {
             </section>
           </div>
 
-          {/* MMF Chart (Added above ARKK) */}
-          <section>
-            <MMFChart />
-          </section>
-
-          <section>
-            <ArkkChart />
-          </section>
-
-          {/* SPX & BTC Charts (Added below ARKK) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* New Charts Section: TGA -> RRP -> MMF -> ARKK -> SPX -> BTC */}
+          <div className="space-y-8">
+            <section>
+              <TGAChart data={data} />
+            </section>
+            <section>
+              <RRPChart data={data} />
+            </section>
+            <section>
+              <MMFChart data={data} />
+            </section>
+            <section>
+              <ArkkChart />
+            </section>
             <section>
               <SPXChart />
             </section>

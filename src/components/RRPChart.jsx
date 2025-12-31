@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const MMFChart = ({ data }) => {
+const RRPChart = ({ data }) => {
     const [timeRange, setTimeRange] = useState('1Y');
 
     const getFilteredData = () => {
@@ -28,18 +28,18 @@ const MMFChart = ({ data }) => {
     };
 
     const chartData = getFilteredData();
-    const latestValue = chartData.length > 0 ? chartData[chartData.length - 1].mmf : 0;
+    const latestValue = chartData.length > 0 ? chartData[chartData.length - 1].rrp : 0;
 
     return (
         <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 shadow-sm">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <div>
                     <h2 className="text-xl font-bold text-slate-100 flex items-center gap-2">
-                        <span className="w-2 h-8 bg-emerald-500 rounded-full"></span>
-                        Money Market Fund Assets (Retail)
+                        <span className="w-2 h-8 bg-purple-500 rounded-full"></span>
+                        Overnight Reverse Repo (RRP)
                     </h2>
                     <p className="text-slate-400 text-sm mt-1">
-                        Source: FRED (WRMFNS)
+                        Cash parked at the Fed by Money Market Funds
                     </p>
                 </div>
 
@@ -81,19 +81,19 @@ const MMFChart = ({ data }) => {
                         />
                         <Tooltip
                             contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', color: '#f1f5f9' }}
-                            itemStyle={{ color: '#10b981' }}
-                            formatter={(value) => [`$${value.toFixed(3)}T`, 'MMF']}
+                            itemStyle={{ color: '#a855f7' }}
+                            formatter={(value) => [`$${value.toFixed(3)}T`, 'RRP']}
                             labelFormatter={(label) => new Date(label).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                         />
                         <Legend />
                         <Line
                             type="monotone"
-                            dataKey="mmf"
-                            name="MMF Assets"
-                            stroke="#10b981"
+                            dataKey="rrp"
+                            name="RRP Balance"
+                            stroke="#a855f7"
                             strokeWidth={2}
                             dot={false}
-                            activeDot={{ r: 6, fill: '#10b981' }}
+                            activeDot={{ r: 6, fill: '#a855f7' }}
                         />
                     </LineChart>
                 </ResponsiveContainer>
@@ -102,4 +102,4 @@ const MMFChart = ({ data }) => {
     );
 };
 
-export default MMFChart;
+export default RRPChart;
