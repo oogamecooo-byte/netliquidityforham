@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 
 const WeeklyChangeChart = ({ data }) => {
-    const [timeRange, setTimeRange] = useState('Max'); // Default to Max (Since 2015)
+    const [timeRange, setTimeRange] = useState('1Y'); // Default to 1Y for changes as they are noisy
 
     const filteredData = useMemo(() => {
         if (!data || data.length === 0) return [];

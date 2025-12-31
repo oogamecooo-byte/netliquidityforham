@@ -40,11 +40,41 @@ export default async function handler(req, res) {
         });
 
         // Wait for the specific chart container
-        // Based on previous analysis: #chart_div is the container
         await page.waitForSelector('#chart_div', { timeout: 10000 });
 
-        // Give Highcharts a moment to render the SVG/Canvas
-        // We can try to wait for a specific SVG element inside if possible, but a short sleep is safer
+        // Inject CSS to invert colors and hide unnecessary elements
+        await page.evaluate(() => {
+            // 1. Invert colors for dark mode (white -> black, black -> white)
+            // hue-rotate(180deg) preserves original hues roughly, but simple invert is often enough for charts
+            const style = document.createElement('style');
+            style.innerHTML = `
+                /* Invert the chart container to make it dark mode */
+                #chart_div {
+                    filter: invert(1) hue-rotate(180deg);
+                    background-color: #000 !important; /* Ensure background is black after inversion */
+                }
+                
+                /* Hide everything except the chart SVG/Canvas */
+                /* We try to hide common header/footer elements within the chart div if they exist */
+                /* Based on user request, we want ONLY the chart. */
+                /* Inspecting typical OFR structure: The chart is usually an SVG or Canvas inside #chart_div */
+                
+                /* Hide potential headers/titles inside the chart div if they are separate elements */
+                /* This is a best-guess approach without live inspection, but we can try to target text elements */
+                
+                /* If the user wants to remove the "Investments by any U.S. MMF" title, it might be outside #chart_div */
+                /* But since we are screenshotting #chart_div, we only care about what's inside it. */
+                /* If the title IS inside #chart_div, we might need to hide it. */
+                
+                /* Let's try to make the background transparent or black */
+                body {
+                    background-color: #000;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
+        // Give Highcharts a moment to render
         await new Promise(r => setTimeout(r, 2000));
 
         const element = await page.$('#chart_div');
@@ -52,6 +82,7 @@ export default async function handler(req, res) {
             throw new Error('Chart element not found');
         }
 
+        // Capture screenshot
         const screenshotBuffer = await element.screenshot();
 
         res.setHeader('Content-Type', 'image/png');
