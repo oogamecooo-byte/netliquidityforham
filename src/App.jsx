@@ -11,6 +11,7 @@ import TGAChart from './components/TGAChart';
 import RRPChart from './components/RRPChart';
 import MMFChart from './components/MMFChart';
 import USJP10YSpreadChart from './components/USJP10YSpreadChart';
+import HighYieldSpreadChart from './components/HighYieldSpreadChart';
 import SPXChart from './components/SPXChart';
 import BTCChart from './components/BTCChart';
 
@@ -124,6 +125,9 @@ function App() {
             </section>
             <section>
               <MMFChart data={data} />
+            </section>
+            <section>
+              <HighYieldSpreadChart data={data} />
             </section>
             <section>
               <SPXChart data={data} />

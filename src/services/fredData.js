@@ -45,7 +45,7 @@ export const getLiquidityData = async () => {
   // GDP: Gross Domestic Product (Quarterly)
   // WRESBAL: Reserve Balances with Federal Reserve Banks (Weekly)
 
-  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, spxData, btcData, us10yData, jp10yData] = await Promise.all([
+  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, spxData, btcData, us10yData, jp10yData, highYieldData] = await Promise.all([
     fetchSeries('WALCL'),
     fetchSeries('WTREGEN'),
     fetchSeries('RRPONTSYD'),
@@ -56,7 +56,9 @@ export const getLiquidityData = async () => {
     fetchSeries('SP500'), // S&P 500
     fetchSeries('CBBTCUSD'), // Coinbase Bitcoin
     fetchSeries('DGS10'), // US 10Y Yield (Daily)
-    fetchSeries('IRLTLT01JPM156N') // Japan 10Y Yield (Monthly)
+    fetchSeries('DGS10'), // US 10Y Yield (Daily)
+    fetchSeries('IRLTLT01JPM156N'), // Japan 10Y Yield (Monthly)
+    fetchSeries('BAMLH0A0HYM2') // High Yield Spread (Daily)
   ]);
 
   // Process and align data
@@ -168,6 +170,7 @@ export const getLiquidityData = async () => {
         }
         return null;
       })(),
+      highYieldSpread: findValue(highYieldData, date), // High Yield Spread
 
 
       // Raw values for delta calculation (Billions)
