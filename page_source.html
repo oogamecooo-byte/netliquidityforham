@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]> <html lang="en" class="no-js lt-ie9"> <![endif]-->
+<!--[if IE 9]><html lang="en" class="no-js ie9" lang="en"><![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="en" class="no-js"> <!--<![endif]-->
+
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Market Fund Monitor | Office of Financial Research</title>
+    <meta name="twitter:title" content="Money Market Fund Monitor | Office of Financial Research">
+    <meta name="description" content="This monitor is designed to track the investment portfolios of money market funds by funds' asset types, investments in different countries, counterparties, and other characteristics.">
+    <meta name="twitter:description" content="This monitor is designed to track the investment portfolios of money market funds by funds' asset types, investments in different countries, counterparties, and other characteristics.">
+    <meta name="author" content="Office of Financial Research">
+    <link rel="alternate" type="application/rss+xml" title="Office of Financial Research" href="https://www.financialresearch.gov/feed.rss" />
+    <link rel="stylesheet" href="/assets/css/ofr.min.css?202512151504">
+    <link rel="apple-touch-icon" href="/favicon-152.png">
+    <link rel="apple-touch-icon-precomposed" href="/favicon-152.png">
+    <link rel="canonical" href="https://www.financialresearch.gov/money-market-funds/">
+    <meta name="msapplication-TileColor" content="#001871">
+    <meta name="msapplication-TileImage" content="/favicon-144.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://www.financialresearch.gov/assets/images/monitor-meta-mmf.jpg">
+    <meta name="twitter:image" content="https://www.financialresearch.gov/assets/images/monitor-meta-mmf.jpg">
+    <script>
+      /* We are not using Modernizr, so remove the no-js class on the HTML element here */
+      document.documentElement.className = document.documentElement.className.replace("no-js", "js");
+    </script>
+    <!-- prevent clickjacking -->
+    <style id="antiClickjack">
+      .js body {
+        display: none !important;
+      }
+    </style>
+    <script type="text/javascript">
+      if (self === top) {
+        const antiClickjack = document.getElementById("antiClickjack");
+        antiClickjack.parentNode.removeChild(antiClickjack);
+      } else {
+        top.location = self.location;
+      }
+    </script>
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,200;0,300;0,400;1,400&display=swap" rel="stylesheet">
+    <!-- DAP -->
+    <script id="_fed_an_ua_tag" type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=TRE&subagency=OFR&pga4=G-58753541-1&yt=false"></script>
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+          "gtm.start": new Date().getTime(),
+          event: "gtm.js"
+        });
+        let f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l !== "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-PMBX9GTX");
+    </script>
+    <!-- End Google Tag Manager -->
+    <script type="module" src="/assets/components/gov-banner/index-e9be130c.js"></script>
+  </head>
+
+  <body class="standard_1col_page money-market-fund-monitor" role="document">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PMBX9GTX" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- START global/header.html -->
+    <div id="site-header" class="site-header">
+      <uswds-gov-banner></uswds-gov-banner>
+      <div class="container site-header__container" role="banner">
+        <a class="skip-to-content" href="#content" onclick='document.getElementById("content").focus()'>Skip to main content</a>
+        <!--  <div class="row site-header__tagline-row">
+        <div class="col-sm-12">
+          <div class="site-header__logo pull-right"><a href="/"><h3>FinancialResearch.gov</h3></a></div>
+        </div>
+      </div> -->
+        <div class="site-header__logo-row">
+          <div class="site-header__logo-col">
+            <a href="/"><img class="site-header__ofr-logo" src="/assets/svg/OFR_LOGO_WEB.svg" alt="Office of Financial Research" /></a>
+          </div>
+          <div class="site-header__search-col">
+            <div class="site-header__logo pull-right"><a href="/">
+                <h3>FinancialResearch.gov</h3>
+              </a></div>
+            <div class="site-header__search">
+              <form accept-charset="UTF-8" action="https://search.usa.gov/search" method="get" role="search" id="search_form">
+                <div class="input-group">
+                  <input name="affiliate" type="hidden" value="ofr">
+                  <label class="sr-only" for="query">Enter Search Term(s):</label>
+                  <input autocomplete="off" id="query" class="form-control usagov-search-autocomplete site-header__search-input" placeholder="Search" name="query" type="text">
+                  <span class="input-group-btn">
+                    <button name="commit" type="submit" class="site-header__search-button" aria-label="Search"><span class="fa fa-search"></span><span class="btn-hidden-label">Submit</span></button>
+                </div>
+              </form>
+            </div><!-- /.site-header__search -->
+          </div><!-- /.site-header__search-col -->
+        </div><!-- /.site-header__logo-row -->
+      </div><!-- /.site-header__container -->
+    </div><!-- /.site-header -->
+    <nav>
+      <div id="site-navbar" class="navbar navbar-default site-navbar">
+        <div class="container">
+          <div class="row">
+            <!-- MOBILE DISPLAY -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#site-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <!-- END MOBILE DISPLAY -->
+            <div class="collapse navbar-collapse" id="site-navbar-collapse">
+              <ul class="nav navbar-nav" role="menubar">
+                <li class="dropdown active">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="menuitem" aria-expanded="false">Monitoring Tools <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a role="menuitem" href="/monitoring-tools/">Monitoring Tools Overview</a></li>
+                    <li><a role="menuitem" href="/bank-systemic-risk-monitor/">Bank Systemic Risk Monitor</a></li>
+                    <li><a role="menuitem" href="/financial-stress-index/">Financial Stress Index</a></li>
+                    <li><a role="menuitem" href="/hedge-fund-monitor/">Hedge Fund Monitor</a></li>
+                    <li><a role="menuitem" href="/short-term-funding-monitor/">Short-term Funding Monitor</a></li>
+                    <li><a role="menuitem" href="/money-market-funds/">U.S. Money Market Fund Monitor</a></li>
+                    <li role="separator" class="divider">Discontinued</li>
+                    <li class="dropdown-header">Discontinued Monitors</li>
+                    <li><a role="menuitem" href="/financial-vulnerabilities/">Financial System Vulnerabilities Monitor</a></li>
+                    <li><a role="menuitem" href="/financial-markets-monitor/">Financial Markets Monitor</a></li>
+                    <li><a role="menuitem" href="/gsib-scores-chart/">G-SIB Scores Interactive Chart</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown ">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="menuitem" aria-expanded="false">Data &amp; Standards <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a role="menuitem" href="/data/">Data & Standards Overview</a></li>
+                    <li><a role="menuitem" href="/data/financial-instrument-reference-database/">Financial Instrument Reference Database (FIRD)</a></li>
+                    <li><a role="menuitem" href="/data/collections/">Data Collections</a></li>
+                    <li><a role="menuitem" href="/data/legal-entity-identifier/">Legal Entity Identifier (LEI)</a></li>
+                    <li><a role="menuitem" href="/data/interagency-data-inventory/">Interagency Data Inventory</a></li>
+                    <li><a role="menuitem" href="/data/libor-alternatives/">LIBOR Alternatives</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown ">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="menuitem" aria-expanded="false">News &amp; Events <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a role="menuitem" href="/news-events/">News &amp; Events Overview</a></li>
+                    <li><a role="menuitem" href="/from-the-director/">From the Director</a></li>
+                    <li><a role="menuitem" href="/the-ofr-blog/">The OFR Blog</a></li>
+                    <li><a role="menuitem" href="/press-releases/">Press Releases</a></li>
+                    <li><a role="menuitem" href="/congressional-testimony/">Congressional Testimony</a></li>
+                    <li><a role="menuitem" href="/public-appearances/">Public Appearances</a></li>
+                    <li><a role="menuitem" href="/conferences/">Conferences</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown ">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="menuitem" aria-expanded="false">Inside the OFR <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a role="menuitem" href="/about/">About Us</a></li>
+                    <li><a role="menuitem" href="/staff/">OFR Leadership</a></li>
+                    <li><a role="menuitem" href="/careers/">Careers</a></li>
+                    <li><a role="menuitem" href="/frac/">Financial Research Advisory Committee</a></li>
+                    <li><a role="menuitem" href="/about/policies/">Policies</a></li>
+                    <li><a role="menuitem" href="/budget/">Budget</a></li>
+                    <li><a role="menuitem" href="/strategy/">Strategy</a></li>
+                    <li><a role="menuitem" href="/grants/">Grants</a></li>
+                    <li><a role="menuitem" href="/research-staff/">Meet the Research Staff</a></li>
+                    <li><a role="menuitem" href="/partnerships/">Partnerships</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown ">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="menuitem" aria-expanded="false">Publications <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a role="menuitem" href="/publications/">Publications Overview</a></li>
+                    <li><a role="menuitem" href="/briefs/">Briefs</a></li>
+                    <li><a role="menuitem" href="/reports/">Reports</a></li>
+                    <li><a role="menuitem" href="/staff-discussion-papers/">Staff Discussion Papers</a></li>
+                    <li><a role="menuitem" href="/viewpoint-papers/">Viewpoint Papers</a></li>
+                    <li><a role="menuitem" href="/working-papers/">Working Papers</a></li>
+                  </ul>
+                </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="feedback-email"><a href="#">Feedback <i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Subscribe <i class="fa fa-rss" aria-hidden="true"></i></a>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <form accept-charset="UTF-8" action="https://public.govdelivery.com/accounts/USTREASOFR/subscribers/qualify" method="post" class="sign-up-form">
+                        <div class="form-group">
+                          <input name="utf8" type="hidden" value="✓">
+                          <input name="authenticity_token" type="hidden" value="tiEIApP9aICsyys4QgVy481rtOQbrpsx25Vt1auxjO8=">
+                          <input id="topic_id" name="topic_id" type="hidden" value="USTREASOFR_1">
+                          <label for="email">Get updates from the OFR:</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="e-mail">
+                            <span class="input-group-btn">
+                              <button class="btn btn-info" type="submit">Sign up</button>
+                            </span>
+                          </div>
+                        </div>
+                      </form>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item-twitter">
+                  <a href="https://twitter.com/ofrgov" data-toggle="tooltip" data-placement="bottom" title="The website associated with the link you have selected is located on another server and is not subject to Federal information quality, privacy, security, and related guidelines. The OFR does not endorse this other website, its sponsor, or any of the views, activities, products, or services offered on the website or by any advertiser on the website." target="_blank">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" height="14" width="14" xml:space="preserve" fill="currentcolor">
+                      <title>Logo for Twitter</title>
+                      <path d="m0 0v100h100v-100h-100zm10 10h25.312l17.479 25.562 20.213-25.562h12.268l-26.799 33.887 31.527 46.113h-24.686l-19.336-27.967-22.125 27.967h-12.273l28.666-36.246-30.246-43.754zm14.326 7.6973 44.373 64.18h6.7969l-43.877-64.18h-7.293z" fill-rule="evenodd" stroke-width="3.9005" />
+                    </svg>
+                  </a>
+                </li>
+                <li class="nav-item-twitter">
+                  <a href="https://www.linkedin.com/company/office-of-financial-research/" data-toggle="tooltip" data-placement="bottom" title="The website associated with the link you have selected is located on another server and is not subject to Federal information quality, privacy, security, and related guidelines. The OFR does not endorse this other website, its sponsor, or any of the views, activities, products, or services offered on the website or by any advertiser on the website." target="_blank">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" height="14" width="14" xml:space="preserve" fill="currentcolor">
+                      <title>Logo for LinkedIn</title>
+                      <path d="m7.5391 0c-4.0762 0-7.5391 3.2239-7.5391 7.1953v85.605c0 3.9762 2.2715 7.1992 6.3477 7.1992h85.219c4.0809 0 8.4336-3.223 8.4336-7.1992v-85.605c0-3.9714-3.1612-7.1953-7.2422-7.1953zm15.439 12.646a8.9262 8.9262 0 0 1 7.3789 8.7812 8.9268 8.9268 0 1 1-17.854 0.0058 8.9262 8.9262 0 0 1 10.475-8.7871zm44.336 24.854c14.386 0 18.4 7.6376 18.4 21.785v26.43h-14.287v-23.824c0-6.3333-2.5271-11.891-8.4414-11.891-7.1809 0-10.605 4.8628-10.605 12.844v22.871h-14.285v-47.619h13.461v6.8613h0.14845c2.0524-3.7 8.1141-7.457 15.609-7.457zm-53.029 0.5957h14.287v47.619h-14.287zm-14.285-38.096v7.1953c0-3.9714 3.4629-7.1953 7.5391-7.1953zm92.758 0c4.0809 0 7.2422 3.2239 7.2422 7.1953v-7.1953zm-92.758 92.801v7.1992h6.3477c-4.0762 0-6.3477-3.223-6.3477-7.1992zm100 0c0 3.9762-4.3527 7.1992-8.4336 7.1992h8.4336z" fill-rule="evenodd" stroke-width=".4" />
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+            </div><!--/.collapse -->
+          </div><!--/.row -->
+        </div><!--/.container -->
+      </div><!--/.navbar -->
+    </nav>
+    <!-- END global/header.html -->
+    <div id="content">
+      <div class="container main-container">
+        <div class="row main-content">
+          <div id="body-content" class="body-content-one-col" role="main">
+            <div class="row"> <!-- START banner.html -->
+              <!-- page.section: monitoring-tools -->
+              <!-- page.categories: money-market-funds -->
+              <!-- page.layout_name:  -->
+              <!-- page.layout_type:  -->
+              <div class="banner">
+                <header>
+                  <a href="/">Home</a>
+                  <!-- section.homepage: /monitoring-tools/ --> / <a href="/monitoring-tools/" id="banner">Monitoring Tools</a> / Money Market Fund Monitor
+                </header>
+              </div><!-- ./banner -->
+              <div class="page-title__col">
+                <h1 class="page-title h2"> Money Market Fund Monitor </h1>
+              </div>
+              <!-- END banner.html -->
+            </div>
+            <link rel="stylesheet" href="/assets/css/site.css">
+            <link rel="stylesheet" href="/assets/css/mmf/mmf.css">
+            <div id="sizecalc"></div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                  <div id="modalHeader" class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="myModalLabel">How to use the OFR's Money Market Fund Monitor</h3>
+                  </div>
+                  <div id="modalBody" class="modal-body">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                      <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                          <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> How to zoom in on chart? </a>
+                          </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                          <div class="panel-body">
+                            <h2 class="big-instructions">Click and drag in chart to zoom. </h2>
+                            <img class="modal-image" src="/assets/images/zoom_on_chart.png">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                          <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> How to filter chart? </a>
+                          </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                          <div class="panel-body">
+                            <h2 class="big-instructions">Type in search box for partial matching. </h2>
+                            <img class="modal-image" src="/assets/images/keyword_search.png">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingThree">
+                          <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> How to drill through data? </a>
+                          </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                          <div class="panel-body">
+                            <h2 class="big-instructions">Click on details of legend item to see data drill down options. </h2>
+                            <img class="modal-image" src="/assets/images/breakout_rollup.png">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingFour">
+                          <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour"> How to download data? </a>
+                          </h4>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                          <div class="panel-body">
+                            <h2 class="big-instructions">Click "Data" button to download the current view as CSV file</h2>
+                            <img class="modal-image" src="/assets/images/data_download.png">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingFive">
+                          <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive"> What if I find an error? </a>
+                          </h4>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                          <div class="panel-body">
+                            <h2 class="big-instructions">Thank you! Please click the feedback icon on the right to send an email and describe the error.</h2>
+                            <img class="modal-image" src="/assets/images/feedback.png">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="modalFooter" class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <p class="mmf-intro-text">This monitor is designed to track the investment portfolios of money market funds by funds' asset types, investments in different countries, counterparties, and other characteristics. Users can view trends and developments across the MMF industry. Data are downloadable and displayed in six interactive charts. The <a href="/briefs/2016/07/20/reference-guide-to-the-ofrs-us-money-market-fund-monitor/" target="_blank">reference guide</a> contains examples of how to use the monitor and additional information.</p>
+                <!--        <a href="/monitoring-tools/subscribe/">
+                    <button class="general dropdown-toggle" role="button" aria-expanded="false" title="Subscribe button">Get Updates by Email</button>
+                </a>
+                -->
+                <!-- most recent report -->
+              </div>
+            </div>
+            <div id="FSMContainer" class="fsm">
+              <!--<div id="chart_div" ></div>-->
+              <div class="form-group">
+                <div>
+                  <label>Select a chart to display:</label>
+                  <div class="dropdown" id="dropdownMenu2">
+                    <button id="chart_nav" class="btn btn-info" data-toggle="dropdown">
+                      <span id="dropdown_title2">Investments by any U.S. MMF</span>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a id="invst_by_mmf" tabindex="-1" href="/money-market-funds/">Investments by any U.S. MMF</a></li>
+                      <li><a id="fund_category" tabindex="-1" href="/money-market-funds/us-mmfs-investments-by-fund-category/">U.S. MMFs&#8217; investments by fund category</a></li>
+                      <li><a id="invst_by_prime" tabindex="-1" href="/money-market-funds/investments-by-us-prime-mmfs/">Investments by U.S. prime MMFs</a></li>
+                      <li><a id="invst_by_repo_market" tabindex="-1" href="/money-market-funds/us-mmfs-investments-in-the-repo-market/">U.S. MMFs&#8217; investments in the repo market</a></li>
+                      <li><a id="fed_reserve_repo" tabindex="-1" href="/money-market-funds/us-mmfs-repos-with-the-federal-reserve/">U.S. MMFs&#8217; repos with the Federal Reserve</a></li>
+                      <li><a id="fr_rrp_utilization" tabindex="-1" href="/money-market-funds/federal-reserve-repo-facility-total-utilization-and-mmfs-participation/">Federal Reserve repo facility total utilization and MMFs&#8217; participation</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div id="chart_div"></div>
+            </div>
+            <div id="popover-source-1" class="popover-source">
+              <h4>What is a Repurchase Agreement - Repo</h4> A repurchase agreement, or a repo, is the sale of a security in exchange for cash, with a commitment to buy it back again at a set price and at a set time. Repos are usually overnight, but they can be longer. They thus resemble short-term cash loans backed by collateral. <br>
+              <br> See more: <a target="_blank" href="/working-papers/files/OFRwp-2015-17_Reference-Guide-to-U.S.-Repo-and-Securities-Lending-Markets.pdf">OFR's Repo Market Reference Guide</a>
+            </div>
+            <div id="popover-source-2" class="popover-source"> To drill down to this level click 'details' next to an item above. </div>
+            <div id="popover-source-3" class="popover-source">
+              <h4>How are MMFs categorized</h4> MMFs report their category in Form N-MFP by choosing from several options: <br>
+              <ul>
+                <li>Treasury</li>
+                <li>Government/Agency</li>
+                <li>Exempt Government</li>
+                <li>Prime</li>
+                <li>Single State</li>
+                <li>Other Tax Exempt</li>
+              </ul> The OFR's MMF Monitor combines Treasury, Government/Agency and Exempt Government categories into the "Government" category. These funds invest most of their assets in cash, government securities, and repurchase agreements (repos) backed by these securities. <br>
+              <br> Single State and Other Tax Exempt Funds are combined into the "Tax Exempt" category. The funds in this category invest mainly in securities exempt from local income taxes. Usually, these are securities issued by local governments or municipal entities. <br>
+              <br> See more: <a target="_blank" href="https://www.sec.gov/about/forms/formn-mfp.pdf">SEC's Form N-MFP</a>
+            </div>
+            <div id="popover-source-4" class="popover-source">
+              <h4>What are repos with the Federal Reserve</h4> The Federal Reserve (Fed) uses repurchase agreements, also called "repo" or "RRP", to help adjust the cash supply in the economy. <br>
+              <br> When the Fed conducts a repo with an MMF, it sells securities with an agreement to buy them back at a later date. The Fed borrows cash from MMFs, which reduces the cash in circulation. <br>
+              <br> See more: <a target="_blank" href="https://www.newyorkfed.org/markets/rrp_faq.html" class="link-external">New York Fed's FAQ</a>, <a target="_blank" href="/working-papers/files/OFRwp-2015-17_Reference-Guide-to-U.S.-Repo-and-Securities-Lending-Markets.pdf" class="link-pdf">OFR's Repo Market Reference Guide</a>
+            </div>
+            <div id="popover-source-5" class="popover-source">
+              <h4>What are money market funds and fund managers</h4> Money market funds are a type of a mutual fund and are regulated by the SEC. Typically, money market funds issue shares in the public market and sell them to all types of investors. (A small group of funds do not issue public shares.) The fund invests that cash in short-term debt securities from issuers such as banks, nonfinancial corporations, municipalities and federal and local governments. Money market funds typically rely upon third parties to carry out business activities, such as an investment manager, administrator, custodian, principal underwriter, and transfer agent. <br>
+              <br> See more: <a target="_blank" href="https://www.sec.gov/spotlight/money-market.shtml" class="link-external">SEC: Money Market Funds</a>, <a target="_blank" href="/briefs/files/OFRbr_2016-07_Money-Market-Fund-Monitor.pdf" class="link-pdf">OFR's MMF Monitor Guide</a>
+            </div>
+            <div id="popover-source-6" class="popover-source"> Please share your experience and report any errors. </div>
+            <div id="popover-source-7" class="popover-source">
+              <h4>What is a prime fund</h4> Money market funds are a type of a mutual fund and are regulated by the SEC. Typically, money market funds issue shares in the public market and sell them to all types of investors. (A small group of funds do not issue public shares.) Money market funds that primarily invest in corporate debt securities are referred to as prime funds. <br>
+              <br> See more: <a target="_blank" href="https://www.sec.gov/about/forms/formn-mfp.pdf" class="link-external-pdf">SEC's Form N-MFP</a>
+            </div>
+            <div id="popover-source-8" class="popover-source">
+              <h4>What is a government fund</h4> MMFs report their category in Form N-MFP by choosing from several options: <br>
+              <ul>
+                <li>Treasury</li>
+                <li>Government/Agency</li>
+                <li>Exempt Government</li>
+                <li>Prime</li>
+                <li>Single State</li>
+                <li>Other Tax Exempt</li>
+              </ul> The OFR's MMF Monitor combines Treasury, Government/Agency and Exempt Government categories into the "Government" category. These funds invest most of their assets in cash, government securities, and repurchase agreements (repos) backed by these securities. <br>
+              <br> See more: <a target="_blank" href="https://www.sec.gov/about/forms/formn-mfp.pdf" class="link-external-pdf">SEC's Form N-MFP</a>
+            </div>
+            <div id="popover-source-9" class="popover-source">
+              <h4>What is a tax exempt fund, and what are retail and institutional funds?</h4> Money market funds, a type of mutual fund, are regulated by the Securities and Exchange Commission. Money market funds that primarily invest in securities exempt from local income taxes are called tax exempt funds. Usually, these are securities issued by local governments or municipal entities. <br>
+              <br> Since the adoption of money market reforms in 2014, tax exempt funds are further divided into two categories based on the type of investor. Tax exempt funds limited to individual investors are labeled "Tax Exempt Retail" in the OFR's U.S. Money Market Fund Monitor. These funds are allowed to maintain a stable net-asset value per share. All other tax exempt funds, labeled "Tax Exempt Institutional," have a floating net asset value per share that fluctuates with the market value of the fund's assets. <br>
+              <br> See more: <a target="_blank" href="https://www.sec.gov/about/forms/formn-mfp.pdf" class="link-external-pdf">SEC's Form N-MFP</a>
+            </div>
+            <div style="min-height: 250px"></div>
+          </div><!-- /#FSMContainer -->
+          <script>
+            $('#myModal').modal({
+              show: false
+            });
+            $('.fixed-email').click(function(e) {
+              if ($('#chart_div_subtitle p').length) {
+                var chartTitle = $('#chart_div_subtitle p').html();
+              } else {
+                var chartTitle = $('#chart_div_title h2').text();
+              }
+              var feedback = chartTitle + '%0A' + encodeURI(JSON.stringify(window.location.href));
+              document.location.href = 'mailto:Ofr_monitorsfeedback@ofr.treasury.gov ?subject=MMF%20Monitor%20Feedback&body=%0A%0A%0A-------Technical Reference-------%0A' + feedback, '_top'
+            });
+            var json_data;
+            var stnd_credit =
+              '<div class="chart-credits pull-right"><b>Sources:</b> <a target="_blank" href="https://www.sec.gov/files/formn-mfp.pdf">SEC Form N-MFP</a>, OFR Analysis </div><br><br><div><b>Note:</b> All data presented are OFR-derived aggregates on an ultimate parent basis of the original source data. Updated <span id="updated"></span> with data through <span id="asof"></span>.<br><br>The OFR staff tries to map each security issuer to an ultimate parent, sector, region, and country, and to track changes in the names of funds and advisors. The OFR staff relies upon elements in the source data such as regulatory filings, company disclosures and commercial data that contain the security&#39;s title, name of issuer, description, and a numeric identifier to link records that correspond to the same security issuer. The OFR staff consolidates security issuers to an ultimate parent on the basis of publicly available information sources such as regulatory filings and company websites. In making a determination of country of domicile, using regulatory filings, company disclosures or commercial data, the OFR staff relies on either the address of the ultimate parent&#39;s headquarters, or if different, the country where source materials suggest the ultimate parent has its most substantial operations or marketing presence. In the case of securities issued or guaranteed by U.S. states, municipalities, or associated authorities, the OFR staff aggregates all security issuers to a single generic entity, "Municipal." Generally, in charts with more than 100 data series, small security issuers are consolidated as “Aggregated small issuers” on the display, but are disaggregated in the data downloads. The names and advisors of some small funds may have changed due to past corporate actions, which may not be reflected in the current version of the monitor.<br><br> Individual security issuers are assigned to a sector on the basis of their ultimate parent and what the OFR staff believes to be the primary business of that ultimate parent.<br><br> Credit risk associated with a counterparty used for repurchase agreement transactions, including those backed by Treasury and Government Agency securities, is considered as part of the total exposure to a specific country and region.<br><br>Users should consult the source data and other references for themselves and perform their own analysis.<br><br><b>Legal Disclaimer:</b> This OFR monitor is presented solely for informative purposes. It should not be relied upon for financial decisions because it is not intended to provide any investment or financial advice. Users should consult source materials as they were originally filed. The OFR may provide links and/or references to other sites outside of these monitor pages, which are provided for information only and do not constitute endorsement by the U.S. government, the U.S. Treasury Department, or the Office of Financial Research, of the referenced organizations, content, products, or services, including suitability, usefulness, functioning, completeness, or accuracy. Please note that neither the U.S. Treasury Department nor the Office of Financial Research controls, and cannot guarantee the relevance, timeliness, or accuracy of these outside materials.</div>'
+            var mmf_rrp_credit = '<div class="chart-credits pull-right">Sources: <a target="_blank" href="https://www.sec.gov/files/formn-mfp.pdf">SEC Form N-MFP</a>, <a href="https://apps.newyorkfed.org/markets/autorates/tomo-results-display?SHOWMORE=TRUE">Federal Reserve Bank of New York</a>, OFR Analysis </div>'
+            var portfolio_risk = [{
+              "mnemonic": "MFS004",
+              "display_name": "Fund Manager",
+              "filter_values": [],
+              "data": {},
+              "default": []
+            }, {
+              "mnemonic": "MFS003",
+              "display_name": "Fund Name",
+              "filter_values": [],
+              "data": {},
+              "default": []
+            }, {
+              "mnemonic": "MFS009",
+              "display_name": "Country",
+              "filter_values": [],
+              "data": {},
+              "default": []
+            }, {
+              "mnemonic": "MFS008",
+              "display_name": "Credit",
+              "filter_values": [],
+              "data": {},
+              "default": []
+            }, {
+              "mnemonic": "MFS005",
+              "display_name": "Asset Type",
+              "filter_values": [],
+              "data": {},
+              "default": []
+            }];
+            var portfolio_risk_caption = 'This chart shows the investments made by each  <span class= "info-keyword"  data-sourceid="5">U.S. MMF manager <span class="pull right glyphicon glyphicon-question-sign"></span></span> and their individual funds. Start by observing the market shares of all fund managers or search for a single manager. Click on &#39;details&#39; to choose one fund manager and drill down to see its funds. Continue to drill down to see its investments, which are grouped by country, credit exposure, and asset type.'
+            var portfolio_risk_subtitles = ['Total assets of each manager', 'Total assets of each fund managed by {0}', 'Investments in each country by {0|S} {1} ', 'Investments by {0|S} {1} in {2|D}', 'Security types issued by {3} and held by {0|S} {1}'];
+            $(document).ready(function() {
+              var portfolio_risk_metadata = new ChartMetadata("MMFSecurities", "MFS001", "MFS015", "USD", "Assets under management", portfolio_risk, portfolio_risk_subtitles, ["portfolio_risks"]);
+              var portfolio_chart = new ChartBlock("chart_div", "datatable_div", "Investments by any U.S. MMF", portfolio_risk_metadata, ofrMMFChartOptions, portfolio_risk_caption, stnd_credit);
+              updateMMFChart(portfolio_chart);
+            });
+          </script>
+          <!--0<p class="align-right">Last updated: </p>-->
+        </div><!-- /.body-content-one-col -->
+      </div><!-- /.main-conent -->
+    </div><!-- /.container -->
+    </div><!-- /#content -->
+    <!-- Empty modal used to "dynamically" pull in content for external links -->
+    <div class="modal fade" id="externalSitenotification" role="dialog" aria-labelledby="externalLinkLabel">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="externalLinkLabel">You are now leaving the OFR’s website.</h4>
+          </div>
+          <div class="modal-body">
+            <p>You will be redirected to:</p>
+            <p><span class="modal-external-link"></span></p>
+            <p>You are now leaving the OFR Website. The website associated with the link you have selected is located on another server and is not subject to Federal information quality, privacy, security, and related guidelines. To remain on the OFR Website, click 'Cancel'. To continue to the other website you selected, click 'Proceed'. The OFR does not endorse this other website, its sponsor, or any of the views, activities, products, or services offered on the website or by any advertiser on the website.</p>
+            <p>Thank you for visiting www.financialresearch.gov.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default modal-cancel" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary proceed-to-external-link proceed-to-external-link-btn" href="#">Proceed</a>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <footer>
+      <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px">
+        <div id="divThumbs"> Was this page helpful? <button onclick="showForm('Yes')" title="Thumbs Up" style="background: none; border: none; padding: 0">
+            <svg aria-hidden="true" focusable="false" role="img" style="height: 2em; width: 2em; vertical-align: text-bottom; fill: #31458c" onmouseover="this.style.fill = '#4C8C2B'" onmouseout="this.style.fill = '#31458c'">
+              <use xlink:href="/assets/images/uswds/sprite.svg#thumb_up_alt"></use>
+            </svg>
+          </button>
+          <button onclick="showForm('No')" title="Thumbs Down" style="background: none; border: none; padding: 0">
+            <svg aria-hidden="true" focusable="false" role="img" style="height: 2em; width: 2em; vertical-align: text-bottom; fill: #31458c" onmouseover="this.style.fill = '#4C8C2B'" onmouseout="this.style.fill = '#31458c'">
+              <use xlink:href="/assets/images/uswds/sprite.svg#thumb_down_alt"></use>
+            </svg>
+          </button>
+        </div>
+        <div id="divComment" hidden>
+          <label for="txtTouchpoint" style="display: block">How can we make this page better?</label>
+          <textarea id="txtTouchpoint" name="txtTouchpoint" maxlength="10000" rows="2" cols="25"></textarea>
+          <input id="hidAnswer1" type="hidden" />
+          <br />
+          <input type="button" value="Send feedback" onclick="submitForm()" class="btn btn-primary" style="margin-top: 0.5em" />
+        </div>
+        <div id="divThanks" hidden>Thank you for your feedback!</div>
+      </div>
+      <script>
+        const divThumbs = document.querySelector("#divThumbs");
+        const divComment = document.querySelector("#divComment");
+        const divThanks = document.querySelector("#divThanks");
+        const txtTouchpoint = document.querySelector("#txtTouchpoint");
+        const hidAnswer1 = document.querySelector("#hidAnswer1");
+        /**
+         * Send survey responses to touchpoints API.
+         * Switch view to thank you message.
+         */
+        async function submitForm() {
+          await fetch("https://touchpoints.app.cloud.gov/touchpoints/5fc4d26d/submissions.json", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json; charset=UTF-8;",
+            },
+            body: JSON.stringify({
+              submission: {
+                answer_01: hidAnswer1.value,
+                answer_02: txtTouchpoint.value,
+                referer: document.referrer,
+                hostname: location.hostname,
+                page: location.pathname,
+                location_code: "",
+                fba_directive: "",
+                language: navigator.language,
+              },
+            }),
+          });
+          divThumbs.hidden = divComment.hidden = true;
+          divThanks.hidden = false;
+        }
+        /**
+         * Set the value of the hidden input element to `ans`.
+         * Switch view to comment and submit button.
+         * @param {'Yes' | 'No'} ans
+         */
+        function showForm(ans) {
+          hidAnswer1.value = ans;
+          divComment.hidden = false;
+          divThumbs.hidden = divThanks.hidden = true;
+          gas4("was_this_helpful_submit", {
+            event_category: "cx_feedback",
+            event_action: "was_this_page_helpful2",
+            event_label: ans,
+          });
+        }
+      </script>
+      <div id="site-footer" class="site-footer">
+        <div class="site-footer__body">
+          <div class="container site-footer--border-top">
+            <div class="row">
+              <div class="site-footer__address-col">
+                <a href="/about/#contact-us">
+                  <p>
+                    <strong>OFFICE OF FINANCIAL RESEARCH</strong><br /> U.S. Department of the Treasury<br /> 717 14th Street, NW<br /> Washington, DC 20220
+                  </p>
+                </a>
+              </div>
+              <div class="site-footer__links-col">
+                <ul>
+                  <li><a href="/about/#contact-us">Contact us</a></li>
+                  <li><a href="/accessibility/">Accessibility</a></li>
+                  <li><a href="/careers/">Careers</a></li>
+                  <li><a href="/foia/">FOIA</a></li>
+                </ul>
+              </div>
+              <div class="site-footer__links-col">
+                <ul>
+                  <li><a href="/legal-notices/">Legal Notices</a></li>
+                  <li><a href="/no-fear-act/">No FEAR Act</a></li>
+                  <li><a href="/privacy-policy/">Privacy</a><br /></li>
+                  <li><a href="https://home.treasury.gov/subfooter/site-policies-and-notices/plain-writing" class="link-external">Plain Writing</a></li>
+                </ul>
+              </div><!-- ./col-md-3 -->
+              <div class="col-sm-2 site-footer__links-col--last">
+                <ul>
+                  <li><a href="https://oig.treasury.gov/" class="link-external">Office of Inspector General</a></li>
+                  <li><a href="https://home.treasury.gov/services/report-fraud-waste-and-abuse" class="link-external">Report Fraud Waste and Abuse</a></li>
+                  <li><a href="https://home.treasury.gov/" class="link-external">U.S. Department of the Treasury</a></li>
+                  <li><a href="https://www.usa.gov/" class="link-external">USA.gov</a></li>
+                </ul>
+              </div><!-- ./col-md-3 -->
+              <div class="site-footer__emblem-col">
+                <a href="/">
+                  <div class="site-footer__emblem pull-right">Office of Financial Research</div>
+                </a>
+              </div><!-- ./col-md-3 -->
+            </div><!-- ./row -->
+          </div><!-- /.container -->
+        </div><!-- /.site-footer__body -->
+      </div><!-- /#site-footer -->
+    </footer>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/assets/js/ofr.min.js?202512151504"></script>
+    <script src="/assets/js/jquery.color.min.js"></script>
+    <script src="/assets/js/mmf/highstock.js"></script>
+    <script src="/assets/js/mmf/mmf_highcharts_defaults.js"></script>
+    <script src="/assets/js/mmf/mmf_legend.js"></script>
+    <script src="/assets/js/mmf/ofr_optimized_highchart.js"></script>
+    <script type="text/javascript">
+      //<![CDATA[
+      var usasearch_config = {
+        siteHandle: "ofr"
+      };
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "//search.usa.gov/javascripts/remote.loader.js";
+      document.getElementsByTagName("head")[0].appendChild(script);
+      //]]>
+    </script>
+  </body>
+
+</html>

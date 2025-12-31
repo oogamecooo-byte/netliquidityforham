@@ -7,6 +7,9 @@ import NetLiquidityToGDPChart from './components/NetLiquidityToGDPChart';
 import ReservesToGDPChart from './components/ReservesToGDPChart';
 import ArkkChart from './components/ArkkChart';
 import { getLiquidityData } from './services/fredData';
+import MMFChart from './components/MMFChart';
+import SPXChart from './components/SPXChart';
+import BTCChart from './components/BTCChart';
 
 function App() {
   const [data, setData] = useState([]);
@@ -93,6 +96,8 @@ function App() {
             </section>
           </div>
 
+
+
           {/* Bottom Section: Ratio Charts & ARKK */}
           <div className="space-y-8">
             <section>
@@ -103,9 +108,24 @@ function App() {
             </section>
           </div>
 
+          {/* MMF Chart (Added above ARKK) */}
+          <section>
+            <MMFChart />
+          </section>
+
           <section>
             <ArkkChart />
           </section>
+
+          {/* SPX & BTC Charts (Added below ARKK) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <section>
+              <SPXChart />
+            </section>
+            <section>
+              <BTCChart />
+            </section>
+          </div>
         </div>
       )}
     </Layout>

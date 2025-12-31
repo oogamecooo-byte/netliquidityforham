@@ -156,14 +156,8 @@ const FlowAnimation = ({ data }) => {
                     <motion.div
                         className="absolute text-4xl drop-shadow-lg"
                         animate={{
-                            x: tgaVal > 0 ? [-40, 40] : [40, -40], // Market(Left) to Gov(Right) is X+? No.
                             // Market is Center (50%), Gov is Right (85%). So Market -> Gov is Right (X+).
                             // Gov -> Market is Left (X-).
-
-                            // Wait, visualizing:
-                            // Gov (Top Right) <-> Market (Bottom Center)
-                            // Gov -> Market: Down and Left. (X-, Y+)
-                            // Market -> Gov: Up and Right. (X+, Y-)
 
                             // tgaVal > 0 (Market -> Gov): X+, Y-
                             // tgaVal < 0 (Gov -> Market): X-, Y+
