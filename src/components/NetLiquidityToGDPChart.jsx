@@ -23,7 +23,7 @@ const NetLiquidityToGDPChart = ({ data }) => {
                 startDate.setFullYear(now.getFullYear() - 5);
                 break;
             case 'Max':
-                startDate = new Date('2015-01-01'); // Align with ARKK chart (approx 2015)
+                startDate = new Date('2000-01-01'); // User requested Since 2000
                 break;
             default:
                 startDate.setFullYear(now.getFullYear() - 1);

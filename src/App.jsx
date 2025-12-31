@@ -5,7 +5,7 @@ import WeeklyChangeChart from './components/WeeklyChangeChart';
 import FlowAnimation from './components/FlowAnimation';
 import NetLiquidityToGDPChart from './components/NetLiquidityToGDPChart';
 import ReservesToGDPChart from './components/ReservesToGDPChart';
-import ArkkChart from './components/ArkkChart';
+
 import { getLiquidityData } from './services/fredData';
 import TGAChart from './components/TGAChart';
 import RRPChart from './components/RRPChart';
@@ -122,13 +122,10 @@ function App() {
               <MMFChart data={data} />
             </section>
             <section>
-              <ArkkChart />
+              <SPXChart data={data} />
             </section>
             <section>
-              <SPXChart />
-            </section>
-            <section>
-              <BTCChart />
+              <BTCChart data={data} />
             </section>
           </div>
         </div>

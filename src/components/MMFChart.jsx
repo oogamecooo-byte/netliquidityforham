@@ -18,7 +18,7 @@ const MMFChart = ({ data }) => {
                 startDate.setFullYear(now.getFullYear() - 5);
                 break;
             case 'Max':
-                startDate = new Date('2015-01-01'); // Align with other charts
+                startDate = new Date('2000-01-01'); // User requested Since 2000
                 break;
             default:
                 startDate.setFullYear(now.getFullYear() - 1);
@@ -53,8 +53,8 @@ const MMFChart = ({ data }) => {
                                 key={range}
                                 onClick={() => setTimeRange(range)}
                                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${timeRange === range
-                                        ? 'bg-slate-800 text-white shadow-sm'
-                                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                                    ? 'bg-slate-800 text-white shadow-sm'
+                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                                     }`}
                             >
                                 {range}

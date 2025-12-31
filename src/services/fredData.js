@@ -44,14 +44,16 @@ export const getLiquidityData = async () => {
   // GDP: Gross Domestic Product (Quarterly)
   // WRESBAL: Reserve Balances with Federal Reserve Banks (Weekly)
 
-  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves] = await Promise.all([
+  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, spxData, btcData] = await Promise.all([
     fetchSeries('WALCL'),
     fetchSeries('WTREGEN'),
     fetchSeries('RRPONTSYD'),
     fetchSeries('MMMFFAQ027S'),
     fetchSeries('WRMFNS'),
     fetchSeries('GDP'),
-    fetchSeries('WRESBAL')
+    fetchSeries('WRESBAL'),
+    fetchSeries('SP500'), // S&P 500
+    fetchSeries('CBBTCUSD') // Coinbase Bitcoin
   ]);
 
   // Process and align data
@@ -139,6 +141,9 @@ export const getLiquidityData = async () => {
       liquidityToGdpRatio: liquidityToGdpRatio, // Percentage
       reservesToGdpRatio: reservesToGdpRatio, // Percentage
       mmfToGdpRatio: gdpBillions ? (mmfBillions / gdpBillions) * 100 : null, // Percentage
+      spx: findValue(spxData, date), // S&P 500 Index
+      btc: findValue(btcData, date), // Bitcoin Price
+
 
       // Raw values for delta calculation (Billions)
       raw: {
