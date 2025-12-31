@@ -138,6 +138,7 @@ export const getLiquidityData = async () => {
       netLiquidity: netLiquidityBillions / 1000, // Trillions
       liquidityToGdpRatio: liquidityToGdpRatio, // Percentage
       reservesToGdpRatio: reservesToGdpRatio, // Percentage
+      mmfToGdpRatio: gdpBillions ? (mmfBillions / gdpBillions) * 100 : null, // Percentage
 
       // Raw values for delta calculation (Billions)
       raw: {
