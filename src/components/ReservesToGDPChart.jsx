@@ -45,19 +45,24 @@ const ReservesToGDPChart = ({ data }) => {
                     <p className="text-slate-400 text-sm mt-1">Federal Reserve Reserves as a percentage of GDP</p>
                 </div>
 
-                <div className="flex bg-slate-900 rounded-lg p-1 border border-slate-800">
-                    {['1Y', '5Y', 'Max'].map((range) => (
-                        <button
-                            key={range}
-                            onClick={() => setTimeRange(range)}
-                            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${timeRange === range
-                                ? 'bg-slate-800 text-white shadow-sm'
-                                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                                }`}
-                        >
-                            {range}
-                        </button>
-                    ))}
+                <div className="flex flex-col items-end gap-2">
+                    <div className="text-2xl font-bold text-slate-100">
+                        {filteredData.length > 0 ? `${filteredData[filteredData.length - 1].reservesToGdpRatio?.toFixed(2)}%` : '0.00%'}
+                    </div>
+                    <div className="flex bg-slate-900 rounded-lg p-1 border border-slate-800">
+                        {['1Y', '5Y', 'Max'].map((range) => (
+                            <button
+                                key={range}
+                                onClick={() => setTimeRange(range)}
+                                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${timeRange === range
+                                    ? 'bg-slate-800 text-white shadow-sm'
+                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                                    }`}
+                            >
+                                {range}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
