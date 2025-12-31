@@ -16,7 +16,7 @@ const SPXChart = () => {
             "autosize": true,
             "symbol": "FOREXCOM:SPXUSD",
             "interval": "W",
-            "range": "ALL",
+            "range": "120m",
             "timezone": "Etc/UTC",
             "theme": "dark",
             "style": "2",

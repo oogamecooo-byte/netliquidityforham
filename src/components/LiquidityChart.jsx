@@ -11,16 +11,18 @@ import {
 } from 'recharts';
 
 const LiquidityChart = ({ data }) => {
-    const [timeRange, setTimeRange] = useState('ALL'); // 1Y, 5Y, ALL
+    const [timeRange, setTimeRange] = useState('Max'); // Default to Max (Since 2015)
 
     const filteredData = useMemo(() => {
-        if (timeRange === 'ALL') return data;
+        if (!data || data.length === 0) return [];
 
         const now = new Date();
-        const cutoff = new Date();
+        let cutoff = new Date();
 
         if (timeRange === '1Y') cutoff.setFullYear(now.getFullYear() - 1);
-        if (timeRange === '5Y') cutoff.setFullYear(now.getFullYear() - 5);
+        else if (timeRange === '5Y') cutoff.setFullYear(now.getFullYear() - 5);
+        else if (timeRange === 'Max') cutoff = new Date('2015-01-01'); // Align with other charts
+        else cutoff = new Date(0); // Fallback for 'ALL' if needed
 
         return data.filter(d => new Date(d.date) >= cutoff);
     }, [data, timeRange]);
@@ -33,7 +35,7 @@ const LiquidityChart = ({ data }) => {
                     Net Liquidity (Trillions $)
                 </h2>
                 <div className="flex bg-slate-800/50 rounded-lg p-1">
-                    {['1Y', '5Y', 'ALL'].map(range => (
+                    {['1Y', '5Y', 'Max'].map(range => (
                         <button
                             key={range}
                             onClick={() => setTimeRange(range)}

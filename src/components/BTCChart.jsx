@@ -16,7 +16,7 @@ const BTCChart = () => {
             "autosize": true,
             "symbol": "BITSTAMP:BTCUSD",
             "interval": "W",
-            "range": "ALL",
+            "range": "120m",
             "timezone": "Etc/UTC",
             "theme": "dark",
             "style": "2",
