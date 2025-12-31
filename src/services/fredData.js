@@ -134,6 +134,19 @@ export const getLiquidityData = async () => {
     // Reserves / GDP Ratio
     const reservesToGdpRatio = gdpBillions ? (reservesBillions / gdpBillions) * 100 : null;
 
+    const findMonthlyValue = (series, d) => {
+      const targetDate = new Date(d);
+      // Look back up to 40 days to find the last monthly value
+      for (let i = 0; i <= 40; i++) {
+        const prevDate = new Date(targetDate);
+        prevDate.setDate(targetDate.getDate() - i);
+        const dateStr = prevDate.toISOString().split('T')[0];
+        const item = series.find(i => i.date === dateStr);
+        if (item) return parseFloat(item.value);
+      }
+      return null;
+    };
+
     return {
       date,
       fedAssets: fedAssetsBillions / 1000, // Trillions
@@ -148,7 +161,7 @@ export const getLiquidityData = async () => {
       btc: findValue(btcData, date), // Bitcoin Price
       usJpSpread: (() => {
         const usVal = findValue(us10yData, date);
-        const jpVal = findValue(jp10yData, date); // Will find closest monthly value
+        const jpVal = findMonthlyValue(jp10yData, date); // Use specific monthly finder
         if (usVal !== null && jpVal !== null) {
           return usVal - jpVal;
         }

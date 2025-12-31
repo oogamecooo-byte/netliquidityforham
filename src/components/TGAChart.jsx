@@ -43,19 +43,24 @@ const TGAChart = ({ data }) => {
                     </p>
                 </div>
 
-                <div className="flex bg-slate-900 rounded-lg p-1 border border-slate-800">
-                    {['1Y', '5Y', 'Max'].map((range) => (
-                        <button
-                            key={range}
-                            onClick={() => setTimeRange(range)}
-                            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${timeRange === range
-                                ? 'bg-slate-800 text-white shadow-sm'
-                                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-                                }`}
-                        >
-                            {range}
-                        </button>
-                    ))}
+                <div className="flex flex-col items-end gap-2">
+                    <div className="text-2xl font-bold text-slate-100">
+                        {chartData.length > 0 ? `$${chartData[chartData.length - 1].tga?.toFixed(3)}T` : '$0.000T'}
+                    </div>
+                    <div className="flex bg-slate-900 rounded-lg p-1 border border-slate-800">
+                        {['1Y', '5Y', 'Max'].map((range) => (
+                            <button
+                                key={range}
+                                onClick={() => setTimeRange(range)}
+                                className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${timeRange === range
+                                    ? 'bg-slate-800 text-white shadow-sm'
+                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                                    }`}
+                            >
+                                {range}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
