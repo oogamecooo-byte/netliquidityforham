@@ -10,6 +10,7 @@ import { getLiquidityData } from './services/fredData';
 import TGAChart from './components/TGAChart';
 import RRPChart from './components/RRPChart';
 import MMFChart from './components/MMFChart';
+import USJP10YSpreadChart from './components/USJP10YSpreadChart';
 import SPXChart from './components/SPXChart';
 import BTCChart from './components/BTCChart';
 
@@ -117,6 +118,9 @@ function App() {
             </section>
             <section>
               <RRPChart data={data} />
+            </section>
+            <section>
+              <USJP10YSpreadChart data={data} />
             </section>
             <section>
               <MMFChart data={data} />

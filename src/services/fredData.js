@@ -45,7 +45,7 @@ export const getLiquidityData = async () => {
   // GDP: Gross Domestic Product (Quarterly)
   // WRESBAL: Reserve Balances with Federal Reserve Banks (Weekly)
 
-  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, spxData, btcData] = await Promise.all([
+  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, spxData, btcData, us10yData, jp10yData] = await Promise.all([
     fetchSeries('WALCL'),
     fetchSeries('WTREGEN'),
     fetchSeries('RRPONTSYD'),
@@ -54,7 +54,9 @@ export const getLiquidityData = async () => {
     fetchSeries('GDP'),
     fetchSeries('WRESBAL'),
     fetchSeries('SP500'), // S&P 500
-    fetchSeries('CBBTCUSD') // Coinbase Bitcoin
+    fetchSeries('CBBTCUSD'), // Coinbase Bitcoin
+    fetchSeries('DGS10'), // US 10Y Yield (Daily)
+    fetchSeries('IRLTLT01JPM156N') // Japan 10Y Yield (Monthly)
   ]);
 
   // Process and align data
@@ -144,6 +146,14 @@ export const getLiquidityData = async () => {
       mmfToGdpRatio: gdpBillions ? (mmfBillions / gdpBillions) * 100 : null, // Percentage
       spx: findValue(spxData, date), // S&P 500 Index
       btc: findValue(btcData, date), // Bitcoin Price
+      usJpSpread: (() => {
+        const usVal = findValue(us10yData, date);
+        const jpVal = findValue(jp10yData, date); // Will find closest monthly value
+        if (usVal !== null && jpVal !== null) {
+          return usVal - jpVal;
+        }
+        return null;
+      })(),
 
 
       // Raw values for delta calculation (Billions)
