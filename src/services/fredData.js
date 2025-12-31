@@ -9,6 +9,7 @@ const fetchSeries = async (seriesId) => {
       series_id: seriesId,
       api_key: API_KEY,
       file_type: 'json',
+      observation_start: '2000-01-01', // Ensure we get data from 2000
     };
 
     // Adjust frequency and aggregation based on series
