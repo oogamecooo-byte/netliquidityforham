@@ -14,7 +14,7 @@ const MMFChart = () => {
         script.async = true;
         script.innerHTML = JSON.stringify({
             "autosize": true,
-            "symbol": "FRED:MMMFFAQ027S/ECONOMICS:USGDP*100",
+            "symbol": "FRED:MMMFFAQ027S",
             "interval": "W",
             "range": "120m",
             "timezone": "Etc/UTC",
