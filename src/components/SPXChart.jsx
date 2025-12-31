@@ -24,7 +24,7 @@ const SPXChart = ({ data }) => {
                 startDate.setFullYear(now.getFullYear() - 1);
         }
 
-        return data.filter(item => new Date(item.date) >= startDate && item.spx !== null && item.spx !== undefined);
+        return data.filter(item => new Date(item.date) >= startDate);
     };
 
     const chartData = getFilteredData();
@@ -53,8 +53,8 @@ const SPXChart = ({ data }) => {
                                 key={range}
                                 onClick={() => setTimeRange(range)}
                                 className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${timeRange === range
-                                        ? 'bg-slate-800 text-white shadow-sm'
-                                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
+                                    ? 'bg-slate-800 text-white shadow-sm'
+                                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                                     }`}
                             >
                                 {range}

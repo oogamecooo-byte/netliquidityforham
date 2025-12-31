@@ -57,7 +57,6 @@ export const getLiquidityData = async () => {
     fetchSeries('SP500'), // S&P 500
     fetchSeries('CBBTCUSD'), // Coinbase Bitcoin
     fetchSeries('DGS10'), // US 10Y Yield (Daily)
-    fetchSeries('DGS10'), // US 10Y Yield (Daily)
     fetchSeries('IRLTLT01JPM156N'), // Japan 10Y Yield (Monthly)
     fetchSeries('BAMLH0A0HYM2') // High Yield Spread (Daily)
   ]);

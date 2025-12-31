@@ -32,11 +32,13 @@ const fetchSeries = async (seriesId) => {
 const runDebug = async () => {
     console.log('Starting debug...');
 
-    const [fedAssets, us10yData, jp10yData, highYieldData] = await Promise.all([
+    const [fedAssets, us10yData, jp10yData, highYieldData, spxData, btcData] = await Promise.all([
         fetchSeries('WALCL'),
         fetchSeries('DGS10'),
         fetchSeries('IRLTLT01JPM156N'),
-        fetchSeries('BAMLH0A0HYM2')
+        fetchSeries('BAMLH0A0HYM2'),
+        fetchSeries('SP500'),
+        fetchSeries('CBBTCUSD')
     ]);
 
     if (!fedAssets || fedAssets.length === 0) {
@@ -80,12 +82,16 @@ const runDebug = async () => {
         const usVal = findValue(us10yData, date);
         const jpVal = findLatestMonthlyValue(jp10yData, date);
         const highYieldVal = findValue(highYieldData, date);
+        const spxVal = findValue(spxData, date);
+        const btcVal = findValue(btcData, date);
 
         return {
             date,
             usVal,
             jpVal,
             highYieldVal,
+            spxVal,
+            btcVal,
             usJpSpread: (usVal !== null && jpVal !== null) ? usVal - jpVal : null,
             highYieldSpread: highYieldVal
         };
@@ -94,7 +100,14 @@ const runDebug = async () => {
     const lastItems = processedData.slice(-5);
     console.log('--- Last 5 Processed Items ---');
     lastItems.forEach(item => {
-        console.log(`Date: ${item.date}, US10Y: ${item.usVal}, JP10Y: ${item.jpVal}, Spread: ${item.usJpSpread}, HighYield: ${item.highYieldSpread}`);
+        console.log(`Date: ${item.date}, US10Y: ${item.usVal}, JP10Y: ${item.jpVal}, Spread: ${item.usJpSpread}, HighYield: ${item.highYieldSpread}, SPX: ${item.spxVal}, BTC: ${item.btcVal}`);
+    });
+
+    // Check first items to verify start date
+    const firstItems = processedData.slice(0, 5);
+    console.log('--- First 5 Processed Items ---');
+    firstItems.forEach(item => {
+        console.log(`Date: ${item.date}, SPX: ${item.spxVal}, BTC: ${item.btcVal}`);
     });
 };
 
