@@ -13,9 +13,10 @@ const fetchSeries = async (seriesId) => {
     };
 
     // Adjust frequency and aggregation based on series
-    if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP') {
-      params.frequency = 'q'; // Quarterly
-      // No aggregation needed for native quarterly
+    if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'IRLTLT01JPM156N') {
+      params.frequency = 'm'; // Monthly (or Quarterly for GDP/MMF, but 'm' is safer for monthly series)
+      if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP') params.frequency = 'q';
+      // No aggregation needed for native frequency
     } else {
       params.frequency = 'w'; // Weekly
       params.aggregation_method = 'eop'; // End of Period (for Daily -> Weekly)
@@ -73,8 +74,8 @@ export const getLiquidityData = async () => {
       // If not found (e.g. MMF is Monday, RRP might be missing on holiday), find closest previous date
       if (!item) {
         const targetDate = new Date(d);
-        // Look back up to 7 days (cover a full week)
-        for (let i = 1; i <= 7; i++) {
+        // Look back up to 14 days (cover holidays and data delays)
+        for (let i = 1; i <= 14; i++) {
           const prevDate = new Date(targetDate);
           prevDate.setDate(targetDate.getDate() - i);
           const dateStr = prevDate.toISOString().split('T')[0];
@@ -193,6 +194,18 @@ export const getLiquidityData = async () => {
     console.log(`GDP (Billions?): ${lastItem.raw.gdp}`);
     console.log(`Reserves (Billions?): ${lastItem.raw.reserves}`);
     console.log(`Ratio: ${lastItem.reservesToGdpRatio}`);
+
+    // Debug US-JP and High Yield
+    console.log('--- Debug Spread Data ---');
+    console.log(`US 10Y Data Length: ${us10yData?.length}`);
+    console.log(`JP 10Y Data Length: ${jp10yData?.length}`);
+    console.log(`High Yield Data Length: ${highYieldData?.length}`);
+    console.log(`US-JP Spread: ${lastItem.usJpSpread}`);
+    console.log(`High Yield Spread: ${lastItem.highYieldSpread}`);
+
+    if (us10yData?.length > 0) console.log('Sample US 10Y:', us10yData[us10yData.length - 1]);
+    if (jp10yData?.length > 0) console.log('Sample JP 10Y:', jp10yData[jp10yData.length - 1]);
+    if (highYieldData?.length > 0) console.log('Sample High Yield:', highYieldData[highYieldData.length - 1]);
   }
 
   // Calculate Weekly Changes
