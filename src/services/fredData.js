@@ -170,6 +170,8 @@ export const getLiquidityData = async () => {
         }
         return null;
       })(),
+      us10y: findValue(us10yData, date), // US 10Y Yield
+      jp10y: findLatestMonthlyValue(jp10yData, date), // Japan 10Y Yield
       highYieldSpread: findValue(highYieldData, date), // High Yield Spread
 
 
