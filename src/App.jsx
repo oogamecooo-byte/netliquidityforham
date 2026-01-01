@@ -12,6 +12,9 @@ import RRPChart from './components/RRPChart';
 import MMFChart from './components/MMFChart';
 import USJP10YSpreadChart from './components/USJP10YSpreadChart';
 import HighYieldSpreadChart from './components/HighYieldSpreadChart';
+import BankCreditToGDPChart from './components/BankCreditToGDPChart';
+import CorporateDebtToGDPChart from './components/CorporateDebtToGDPChart';
+import M2ToGDPChart from './components/M2ToGDPChart';
 import NasdaqChart from './components/NasdaqChart';
 import BTCChart from './components/BTCChart';
 
@@ -128,6 +131,15 @@ function App() {
             </section>
             <section>
               <HighYieldSpreadChart data={data} />
+            </section>
+            <section>
+              <BankCreditToGDPChart data={data} />
+            </section>
+            <section>
+              <CorporateDebtToGDPChart data={data} />
+            </section>
+            <section>
+              <M2ToGDPChart data={data} />
             </section>
             <section>
               <NasdaqChart data={data} />

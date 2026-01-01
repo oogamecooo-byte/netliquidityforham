@@ -13,9 +13,9 @@ const fetchSeries = async (seriesId) => {
     };
 
     // Adjust frequency and aggregation based on series
-    if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'IRLTLT01JPM156N') {
+    if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'IRLTLT01JPM156N' || seriesId === 'M2SL' || seriesId === 'BCNSDODNS') {
       params.frequency = 'm'; // Monthly (or Quarterly for GDP/MMF, but 'm' is safer for monthly series)
-      if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP') params.frequency = 'q';
+      if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'BCNSDODNS') params.frequency = 'q';
       // No aggregation needed for native frequency
     } else {
       params.frequency = 'w'; // Weekly
@@ -46,7 +46,7 @@ export const getLiquidityData = async () => {
   // GDP: Gross Domestic Product (Quarterly)
   // WRESBAL: Reserve Balances with Federal Reserve Banks (Weekly)
 
-  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, nasdaqData, btcData, us10yData, jp10yData, highYieldData] = await Promise.all([
+  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, nasdaqData, btcData, us10yData, jp10yData, highYieldData, bankCreditData, corporateDebtData, m2Data] = await Promise.all([
     fetchSeries('WALCL'),
     fetchSeries('WTREGEN'),
     fetchSeries('RRPONTSYD'),
@@ -58,7 +58,10 @@ export const getLiquidityData = async () => {
     fetchSeries('CBBTCUSD'), // Coinbase Bitcoin
     fetchSeries('DGS10'), // US 10Y Yield (Daily)
     fetchSeries('IRLTLT01JPM156N'), // Japan 10Y Yield (Monthly)
-    fetchSeries('BAMLH0A0HYM2') // High Yield Spread (Daily)
+    fetchSeries('BAMLH0A0HYM2'), // High Yield Spread (Daily)
+    fetchSeries('TOTBKCR'), // Bank Credit (Weekly)
+    fetchSeries('BCNSDODNS'), // Corporate Debt (Quarterly)
+    fetchSeries('M2SL') // M2 Money Supply (Monthly)
   ]);
 
   // Process and align data
@@ -173,6 +176,23 @@ export const getLiquidityData = async () => {
       us10y: findValue(us10yData, date), // US 10Y Yield
       jp10y: findLatestMonthlyValue(jp10yData, date), // Japan 10Y Yield
       highYieldSpread: findValue(highYieldData, date), // High Yield Spread
+      bankCreditToGdp: (() => {
+        const val = findValue(bankCreditData, date); // Weekly
+        return (val && gdpBillions) ? (val / gdpBillions) * 100 : null;
+      })(),
+      corporateDebtToGdp: (() => {
+        // Quarterly data, use findGdpValue logic (find latest quarterly)
+        if (!corporateDebtData) return null;
+        const targetDate = new Date(date);
+        const sorted = [...corporateDebtData].sort((a, b) => new Date(b.date) - new Date(a.date));
+        const item = sorted.find(i => new Date(i.date) <= targetDate);
+        const val = item ? parseFloat(item.value) : null;
+        return (val && gdpBillions) ? (val / gdpBillions) * 100 : null;
+      })(),
+      m2ToGdp: (() => {
+        const val = findLatestMonthlyValue(m2Data, date); // Monthly
+        return (val && gdpBillions) ? (val / gdpBillions) * 100 : null;
+      })(),
 
 
       // Raw values for delta calculation (Billions)
