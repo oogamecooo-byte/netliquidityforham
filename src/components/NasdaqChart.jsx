@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const SPXChart = ({ data }) => {
+const NasdaqChart = ({ data }) => {
     const [timeRange, setTimeRange] = useState('Max');
 
     const getFilteredData = () => {
@@ -28,7 +28,7 @@ const SPXChart = ({ data }) => {
     };
 
     const chartData = getFilteredData();
-    const latestValue = chartData.length > 0 ? chartData[chartData.length - 1].wilshire : 0;
+    const latestValue = chartData.length > 0 ? chartData[chartData.length - 1].nasdaq : 0;
 
     return (
         <div className="bg-slate-950 p-6 rounded-xl border border-slate-800 shadow-xl">
@@ -36,10 +36,10 @@ const SPXChart = ({ data }) => {
                 <div>
                     <h2 className="text-xl font-bold text-slate-100 flex items-center gap-2">
                         <span className="w-2 h-6 bg-blue-500 rounded-full"></span>
-                        Wilshire 5000 (Total Market)
+                        NASDAQ Composite
                     </h2>
                     <p className="text-slate-400 text-sm mt-1">
-                        Wilshire 5000 Total Market Full Cap Index
+                        NASDAQ Composite Index
                     </p>
                 </div>
 
@@ -97,14 +97,14 @@ const SPXChart = ({ data }) => {
                             }}
                             itemStyle={{ color: '#e2e8f0' }}
                             labelStyle={{ color: '#94a3b8', marginBottom: '0.5rem' }}
-                            formatter={(value) => [value.toLocaleString(), 'Wilshire 5000']}
+                            formatter={(value) => [value.toLocaleString(), 'NASDAQ']}
                             labelFormatter={(label) => new Date(label).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                         />
                         <Legend wrapperStyle={{ paddingTop: '20px' }} />
                         <Line
                             type="monotone"
-                            dataKey="wilshire"
-                            name="Wilshire 5000"
+                            dataKey="nasdaq"
+                            name="NASDAQ"
                             stroke="#3b82f6"
                             strokeWidth={2}
                             dot={false}
@@ -117,4 +117,4 @@ const SPXChart = ({ data }) => {
     );
 };
 
-export default SPXChart;
+export default NasdaqChart;

@@ -12,7 +12,7 @@ import RRPChart from './components/RRPChart';
 import MMFChart from './components/MMFChart';
 import USJP10YSpreadChart from './components/USJP10YSpreadChart';
 import HighYieldSpreadChart from './components/HighYieldSpreadChart';
-import SPXChart from './components/SPXChart';
+import NasdaqChart from './components/NasdaqChart';
 import BTCChart from './components/BTCChart';
 
 function App() {
@@ -130,7 +130,7 @@ function App() {
               <HighYieldSpreadChart data={data} />
             </section>
             <section>
-              <SPXChart data={data} />
+              <NasdaqChart data={data} />
             </section>
             <section>
               <BTCChart data={data} />

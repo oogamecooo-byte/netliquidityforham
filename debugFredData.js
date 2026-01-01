@@ -15,12 +15,10 @@ const fetchSeries = async (seriesId) => {
         if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'IRLTLT01JPM156N') {
             params.frequency = 'm';
             if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP') params.frequency = 'q';
-        } else if (seriesId === 'SP500') {
-            // Test: Try fetching SP500 without forcing weekly to see if we get more data
+        } else if (seriesId === 'WILL5000INDFC') {
+            // Test: Try fetching Wilshire without forcing weekly
             // params.frequency = 'w';
             // params.aggregation_method = 'eop';
-            // Actually, let's keep it weekly but check if 'observation_start' is working.
-            // It is set to '2000-01-01' globally.
         } else {
             params.frequency = 'w';
             params.aggregation_method = 'eop';
@@ -38,12 +36,13 @@ const fetchSeries = async (seriesId) => {
 const runDebug = async () => {
     console.log('Starting debug...');
 
-    const [fedAssets, us10yData, jp10yData, highYieldData, spxData, btcData] = await Promise.all([
+    const [fedAssets, us10yData, jp10yData, highYieldData, wilshireData, btcData] = await Promise.all([
         fetchSeries('WALCL'),
         fetchSeries('DGS10'),
         fetchSeries('IRLTLT01JPM156N'),
         fetchSeries('BAMLH0A0HYM2'),
-        fetchSeries('SP500'),
+        fetchSeries('NASDAQCOM'),
+        fetchSeries('DJIA'),
         fetchSeries('CBBTCUSD')
     ]);
 
@@ -88,7 +87,7 @@ const runDebug = async () => {
         const usVal = findValue(us10yData, date);
         const jpVal = findLatestMonthlyValue(jp10yData, date);
         const highYieldVal = findValue(highYieldData, date);
-        const spxVal = findValue(spxData, date);
+        const wilshireVal = findValue(wilshireData, date);
         const btcVal = findValue(btcData, date);
 
         return {
@@ -96,7 +95,7 @@ const runDebug = async () => {
             usVal,
             jpVal,
             highYieldVal,
-            spxVal,
+            wilshireVal,
             btcVal,
             usJpSpread: (usVal !== null && jpVal !== null) ? usVal - jpVal : null,
             highYieldSpread: highYieldVal
@@ -106,19 +105,19 @@ const runDebug = async () => {
     const lastItems = processedData.slice(-5);
     console.log('--- Last 5 Processed Items ---');
     lastItems.forEach(item => {
-        console.log(`Date: ${item.date}, US10Y: ${item.usVal}, JP10Y: ${item.jpVal}, Spread: ${item.usJpSpread}, HighYield: ${item.highYieldSpread}, SPX: ${item.spxVal}, BTC: ${item.btcVal}`);
+        console.log(`Date: ${item.date}, US10Y: ${item.usVal}, JP10Y: ${item.jpVal}, Spread: ${item.usJpSpread}, HighYield: ${item.highYieldSpread}, Wilshire: ${item.wilshireVal}, BTC: ${item.btcVal}`);
     });
 
     // Check first items to verify start date
     const firstItems = processedData.slice(0, 5);
     console.log('--- First 5 Processed Items ---');
     firstItems.forEach(item => {
-        console.log(`Date: ${item.date}, SPX: ${item.spxVal}, BTC: ${item.btcVal}`);
+        console.log(`Date: ${item.date}, Wilshire: ${item.wilshireVal}, BTC: ${item.btcVal}`);
     });
 
-    if (spxData && spxData.length > 0) {
-        console.log('--- First SP500 Raw Item ---');
-        console.log(spxData[0]);
+    if (wilshireData && wilshireData.length > 0) {
+        console.log('--- First Wilshire Raw Item ---');
+        console.log(wilshireData[0]);
     }
 };
 
