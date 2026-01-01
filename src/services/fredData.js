@@ -46,7 +46,7 @@ export const getLiquidityData = async () => {
   // GDP: Gross Domestic Product (Quarterly)
   // WRESBAL: Reserve Balances with Federal Reserve Banks (Weekly)
 
-  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, spxData, btcData, us10yData, jp10yData, highYieldData] = await Promise.all([
+  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, wilshireData, btcData, us10yData, jp10yData, highYieldData] = await Promise.all([
     fetchSeries('WALCL'),
     fetchSeries('WTREGEN'),
     fetchSeries('RRPONTSYD'),
@@ -54,7 +54,7 @@ export const getLiquidityData = async () => {
     fetchSeries('WRMFNS'),
     fetchSeries('GDP'),
     fetchSeries('WRESBAL'),
-    fetchSeries('SP500'), // S&P 500
+    fetchSeries('WILL5000INDFC'), // Wilshire 5000 (Total Market)
     fetchSeries('CBBTCUSD'), // Coinbase Bitcoin
     fetchSeries('DGS10'), // US 10Y Yield (Daily)
     fetchSeries('IRLTLT01JPM156N'), // Japan 10Y Yield (Monthly)
@@ -160,7 +160,7 @@ export const getLiquidityData = async () => {
       liquidityToGdpRatio: liquidityToGdpRatio, // Percentage
       reservesToGdpRatio: reservesToGdpRatio, // Percentage
       mmfToGdpRatio: gdpBillions ? (mmfBillions / gdpBillions) * 100 : null, // Percentage
-      spx: findValue(spxData, date), // S&P 500 Index
+      wilshire: findValue(wilshireData, date), // Wilshire 5000 Index
       btc: findValue(btcData, date), // Bitcoin Price
       usJpSpread: (() => {
         const usVal = findValue(us10yData, date);

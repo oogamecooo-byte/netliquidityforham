@@ -15,6 +15,12 @@ const fetchSeries = async (seriesId) => {
         if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'IRLTLT01JPM156N') {
             params.frequency = 'm';
             if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP') params.frequency = 'q';
+        } else if (seriesId === 'SP500') {
+            // Test: Try fetching SP500 without forcing weekly to see if we get more data
+            // params.frequency = 'w';
+            // params.aggregation_method = 'eop';
+            // Actually, let's keep it weekly but check if 'observation_start' is working.
+            // It is set to '2000-01-01' globally.
         } else {
             params.frequency = 'w';
             params.aggregation_method = 'eop';
@@ -109,6 +115,11 @@ const runDebug = async () => {
     firstItems.forEach(item => {
         console.log(`Date: ${item.date}, SPX: ${item.spxVal}, BTC: ${item.btcVal}`);
     });
+
+    if (spxData && spxData.length > 0) {
+        console.log('--- First SP500 Raw Item ---');
+        console.log(spxData[0]);
+    }
 };
 
 runDebug();
