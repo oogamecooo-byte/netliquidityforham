@@ -13,9 +13,9 @@ const fetchSeries = async (seriesId) => {
     };
 
     // Adjust frequency and aggregation based on series
-    if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'IRLTLT01JPM156N' || seriesId === 'M2SL' || seriesId === 'BCNSDODNS') {
+    if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'IRLTLT01JPM156N' || seriesId === 'M2SL' || seriesId === 'BCNSDODNS' || seriesId === 'M2V' || seriesId === 'BOGMBASE') {
       params.frequency = 'm'; // Monthly (or Quarterly for GDP/MMF, but 'm' is safer for monthly series)
-      if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'BCNSDODNS') params.frequency = 'q';
+      if (seriesId === 'MMMFFAQ027S' || seriesId === 'GDP' || seriesId === 'BCNSDODNS' || seriesId === 'M2V') params.frequency = 'q';
       // No aggregation needed for native frequency
     } else {
       params.frequency = 'w'; // Weekly
@@ -46,7 +46,7 @@ export const getLiquidityData = async () => {
   // GDP: Gross Domestic Product (Quarterly)
   // WRESBAL: Reserve Balances with Federal Reserve Banks (Weekly)
 
-  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, nasdaqData, btcData, us10yData, jp10yData, highYieldData, bankCreditData, corporateDebtData, m2Data] = await Promise.all([
+  const [fedAssets, tga, rrp, mmfTotal, mmfRetail, gdpData, reserves, nasdaqData, btcData, us10yData, jp10yData, highYieldData, bankCreditData, corporateDebtData, m2Data, m2VelocityData, monetaryBaseData] = await Promise.all([
     fetchSeries('WALCL'),
     fetchSeries('WTREGEN'),
     fetchSeries('RRPONTSYD'),
@@ -61,7 +61,9 @@ export const getLiquidityData = async () => {
     fetchSeries('BAMLH0A0HYM2'), // High Yield Spread (Daily)
     fetchSeries('TOTBKCR'), // Bank Credit (Weekly)
     fetchSeries('BCNSDODNS'), // Corporate Debt (Quarterly)
-    fetchSeries('M2SL') // M2 Money Supply (Monthly)
+    fetchSeries('M2SL'), // M2 Money Supply (Monthly)
+    fetchSeries('M2V'), // M2 Velocity (Quarterly)
+    fetchSeries('BOGMBASE') // Monetary Base (Monthly)
   ]);
 
   // Process and align data
@@ -192,6 +194,19 @@ export const getLiquidityData = async () => {
       m2ToGdp: (() => {
         const val = findLatestMonthlyValue(m2Data, date); // Monthly
         return (val && gdpBillions) ? (val / gdpBillions) * 100 : null;
+      })(),
+      m2Velocity: (() => {
+        // Quarterly data
+        if (!m2VelocityData) return null;
+        const targetDate = new Date(date);
+        const sorted = [...m2VelocityData].sort((a, b) => new Date(b.date) - new Date(a.date));
+        const item = sorted.find(i => new Date(i.date) <= targetDate);
+        return item ? parseFloat(item.value) : null;
+      })(),
+      moneyMultiplier: (() => {
+        const m2Val = findLatestMonthlyValue(m2Data, date);
+        const baseVal = findLatestMonthlyValue(monetaryBaseData, date);
+        return (m2Val && baseVal) ? (m2Val / baseVal) : null;
       })(),
 
 
